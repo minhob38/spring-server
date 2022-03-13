@@ -34,11 +34,8 @@ public class BoardController {
         log.info("author={}, title={}, content={}", post.getAuthor(), post.getTitle(), post.getContent());
     }
 
+    /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
     @PatchMapping(value = "/api/board/posts")
-    /*
-    @RequestBody를 사용하면, json -> http message converter -> object로 실행됩니다.
-    @ResponseBody를 사용하면, object -> http message converter -> json으로 실행됩니다.
-    */
     public String patchPost(@RequestBody Post post) { //@Requestbody를 생략하면, @ModelAttribute가 붙음
         log.info("author={}, title={}, content={}", post.getAuthor(), post.getTitle(), post.getContent());
         return "ok";
