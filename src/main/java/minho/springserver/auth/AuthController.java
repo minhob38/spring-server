@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -68,4 +69,39 @@ public class AuthController {
 
         return "ok";
     }
+
+    @GetMapping(value = "/query1")
+    public String query1(HttpServletRequest request, HttpServletResponse response)  {
+        String email = request.getParameter("email"); //query parameter
+
+        log.info("email={}", email);
+
+
+//        response.getWriter().write("ok");
+        return "ok";
+
+    }
+
+    @GetMapping(value = "/query2")
+    public String query2(@RequestParam("email") String email)  {
+        log.info("email={}", email);
+
+
+//        response.getWriter().write("ok");
+        return "ok";
+
+    }
+
+
+    @GetMapping(value = "/query3")
+    public String query3(@RequestParam Map<String, Object> paramMap)  {
+        log.info("email={}", paramMap.get("email"));
+
+
+//        response.getWriter().write("ok");
+        return "ok";
+
+    }
+
+    // model attripute
 }
