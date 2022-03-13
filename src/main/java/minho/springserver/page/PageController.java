@@ -21,4 +21,4 @@ public class PageController {
     }
 }
 
-// @Controller vs @RestController -> @Controller는 view를 찾음
+// @Controller vs @RestController -> @Controller는 handler의 반환이 문자열일때, view를 찾음
