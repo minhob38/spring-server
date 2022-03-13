@@ -63,28 +63,3 @@ public class BoardController {
 //    }
 }
 
-/*
-[Request]
-* 문자열 응답
-- response.getWriter().write("res") - (HttpServletResponse Class)
-- @ResponseBody + return 문자열
-- ResponseEntity<>("res", HttpStatus.OK) - (ResponseEntity<String> Class)
-
-* json 응답
-- ResponseEntity<>("res", HttpStatus.OK) - (ResponseEntity<해당 Data Class> Class)
-- @ResponseBody + return <해당 Data Class>
- */
-
-/*
-[Response]
-* 문자열 응답
-- response.getWriter().write("res") - (HttpServletResponse Class)
-- @ResponseBody + return 문자열
-- ResponseEntity<>("res", HttpStatus.OK) - (ResponseEntity<String> Class)
-
-* json 응답
-- ResponseEntity<>("res", HttpStatus.OK) - (ResponseEntity<해당 Data Class> Class)
-- @ResponseBody + return <해당 Data Class>
- */
-
-/* @RestController = @Controller + @ResponseBody */

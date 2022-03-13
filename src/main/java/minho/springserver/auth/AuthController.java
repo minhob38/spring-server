@@ -2,24 +2,68 @@ package minho.springserver.auth;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
+/*
+[Request]
+* query / form 요청
+- request.getParameter - (HttpServletRequest instance)
+- @RequestParam("key")
+- @RequestParam Map<String, Object>
+
+* path parameter
+
+* body 요청
+- InputStream + ObjectMapper
+- @Requestbody
+ */
+
+/*
+[Response]
+* 문자열 응답
+- response.getWriter().write("res") - (HttpServletResponse instance)
+- @ResponseBody + return 문자열
+- ResponseEntity<>("res", HttpStatus.OK) - (ResponseEntity<String> class)
+
+* json 응답
+- ResponseEntity<>("res", HttpStatus.OK) - (ResponseEntity<해당 Data Class> class)
+- @ResponseBody + return <해당 Data Class>
+ */
+
+/* @RestController = @Controller + @ResponseBody */
+
 @RestController
+/* @RestController -> @Controller에 @ComponentScan이 있습니다. */
 public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
+    private final UserRepository userRepository;
+
+    @Autowired
+    /* 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다. */
+    public AuthController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /* api https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-methods */
     @RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
-    public String postSignUp() {
-        String name = "Spring";
-        log.info("info log={}", name);
+    public String postSignUp(HttpServletRequest request, HttpServletResponse response) {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+        List<User> users = userRepository.findAll();
+        log.info("info log={}", email);
+        log.info("info log={}", users);
         return "ok" ;
     }
 
