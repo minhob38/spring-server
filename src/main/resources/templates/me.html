@@ -3,28 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <title>Home</title>
-<!--    <link rel="stylesheet" href="{% static 'styles/home.css' %}">-->
 </head>
 <body>
-<h2>안녕하세요, Me입니다 : )</h2>
-<!--<div class="current">오늘의 날짜는 ...</div>-->
-<!--<span>2021년</span>-->
-<!--<span>12월</span>-->
-<!--<span>18일</span>-->
-<!--<div class="current">현재 시간은 ...</div>-->
-<!--<span>13시</span>-->
-<!--<span>27분</span>-->
-<!--<span>30초</span>-->
-<!--<button id="greeting-button">Greeting</button>-->
-<!--<div id=message-box>-->
-<!--    <div id="message">message들 입니다...</div>-->
-<!--    {% if messages %}-->
-<!--    {% for message in messages %}-->
-<!--    {{ message.tags }}-->
-<!--    {{ message.message }}-->
-<!--    {% endfor %}-->
-<!--    {% endif %}-->
-<!--</div>-->
-<!--<script src="{% static 'scripts/home.js' %}"></script>-->
+    <h2>안녕하세요, Me입니다 : )</h2>
+    <span th:text="${content}">spring server입니다.</span>
 </body>
 </html>
