@@ -2,6 +2,8 @@ package minho.springserver.spring;
 
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,5 +29,23 @@ public class UserRepositoryImpl implements UserRepository{
         user.setPassword(password);
         store.put(email, user);
         return user;
+    }
+
+    @PostConstruct
+    public void init() {
+        User user = new User();
+        user.setEmail("qwe@gmail.com");
+        user.setPassword("asdfzxcv");
+        store.put("qwe@gmail.com", user);
+        System.out.println("=== init ===");
+        System.out.println(store);
+    }
+
+    @PreDestroy
+    public void close() {
+        System.out.println("=== clean ===");
+        System.out.println(store);
+        store.clear();
+        System.out.println(store);
     }
 }
