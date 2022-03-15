@@ -9,6 +9,7 @@
 
 * Spring Bean
 - @Configuration이 붙은 configuration class를 설정 정보로 사용합니다.
+- @Configuration이 없어도 bean을 등록할 수 있지만, single tone으로 만들어지지 않습니다.
 - @Bean이 붙은 method를 실행하여 반환된 instance(bean)를 spring container에 등록합니다.
 */
 
@@ -17,7 +18,7 @@ package minho.springserver.spring;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration // single tone으로 bean을 만듭니다.
+@Configuration
 public class AppConfig {
     @Bean(name="userRepoBean") // bean이름은 기본적으로 method 이름과 같으며, name으로 설정할 수 있습니다.
     public UserRepository userRepository() {

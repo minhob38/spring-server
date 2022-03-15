@@ -13,13 +13,12 @@
 
 package minho.springserver.spring;
 
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class AuthApp {
     public static void main(String[] args) {
-        String mode = "w bean"; // w/o config & w config & w bean
+        String mode = "w auto bean"; // w/o config & w config & w bean & w auto bean
 
         if (mode == "w/o config") {
             System.out.println("=== w/o config ===");
@@ -45,6 +44,24 @@ public class AuthApp {
             System.out.println("=== w bean ===");
             ConfigurableApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
             AuthService authService = applicationContext.getBean("authService", AuthService.class);
+            authService.signUp("abc@gmail.com", "qwerasdf");
+            User user = authService.signIn("abc@gmail.com", "qwerasdf");
+            System.out.println("email:" + user.getEmail() + " / " + "password:" + user.getPassword());
+            authService.signOut("abc@gmail.com", "qwerasdf");
+
+            System.out.println("=== bean 조회 ===");
+            System.out.println("=== 전체 bean 조회 ===");
+            String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+            for (String beanDefinitionName : beanDefinitionNames) {
+                Object bean = applicationContext.getBean(beanDefinitionName);
+                System.out.println("name=" + beanDefinitionName + " object=" + bean);
+            }
+        }
+
+        if (mode == "w auto bean") {
+            System.out.println("=== w auto bean ===");
+            ConfigurableApplicationContext applicationContext = new AnnotationConfigApplicationContext(AutoAppConfig.class);
+            AuthService authService = applicationContext.getBean("authServiceImpl", AuthService.class);
             authService.signUp("abc@gmail.com", "qwerasdf");
             User user = authService.signIn("abc@gmail.com", "qwerasdf");
             System.out.println("email:" + user.getEmail() + " / " + "password:" + user.getPassword());
