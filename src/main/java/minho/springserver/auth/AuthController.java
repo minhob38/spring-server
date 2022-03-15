@@ -18,7 +18,7 @@ import java.util.Map;
 - request.getParameter - (HttpServletRequest instance)
 - @RequestParam("key")
 - @RequestParam Map<String, Object>
-
+model attribute
 * path parameter
 
 * body 요청
