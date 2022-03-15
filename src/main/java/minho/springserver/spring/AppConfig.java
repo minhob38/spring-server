@@ -3,7 +3,7 @@
 * AppConfig
 - application의 전체적인 설정을 합니다.
 - class들의 관심사 분리를 합니다. (관심사 분리 service, repository 등)
-- class들은 함수 인자를 interface로 만들고, AppConfig가 구현체를 만들어 class에 넘겨줍니다.
+- class들은 생성자 함수 인자를 interface로 만들고, AppConfig가 구현체를 만들어 class에 넘겨줍니다.
 - 구현체를 만들고, 생성자 주입을 통해 DIP를 지킬 수 있습니다. (이를 의존관계주입(Dependency Injection)이라 합니다.)
 - AppConfig처럼 의존관계를 연결해주는 class를 DI container(IOC container)라 합니다.
 
