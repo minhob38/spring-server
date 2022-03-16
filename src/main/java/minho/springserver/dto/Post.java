@@ -1,4 +1,4 @@
-package minho.springserver.board;
+package minho.springserver.dto;
 
 import lombok.Getter;
 import lombok.Setter;

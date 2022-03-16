@@ -13,14 +13,16 @@
 - @Bean이 붙은 method를 실행하여 반환된 instance(bean)를 spring container에 등록합니다.
 */
 
-package minho.springserver.spring;
+package minho.springserver.springstudy;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class AppConfig {
     @Bean(name="userRepoBean") // bean이름은 기본적으로 method 이름과 같으며, name으로 설정할 수 있습니다.
+    @Primary
     public UserRepository userRepository() {
         System.out.println("UserRepositoryImpl Dependency Injection");
         return new UserRepositoryImpl();

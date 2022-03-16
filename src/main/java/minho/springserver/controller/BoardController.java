@@ -1,7 +1,8 @@
-package minho.springserver.board;
+package minho.springserver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import minho.springserver.dto.Post;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +13,6 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j

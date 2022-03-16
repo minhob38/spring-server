@@ -1,4 +1,4 @@
-package minho.springserver.spring;
+package minho.springserver.springstudy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

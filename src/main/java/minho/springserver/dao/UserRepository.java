@@ -1,5 +1,6 @@
-package minho.springserver.auth;
+package minho.springserver.dao;
 
+import minho.springserver.dto.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
