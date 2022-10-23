@@ -54,7 +54,10 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    /* api https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-methods */
+    /* api
+    https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestmapping
+    https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-methods
+    */
     @RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
     public String postSignUp(HttpServletRequest request, HttpServletResponse response) {
         String email = request.getParameter("email");
