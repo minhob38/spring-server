@@ -1,7 +1,9 @@
 package minho.springserver.controller;
 
+import minho.springserver.dao.UsersRepository;
 import minho.springserver.dto.User;
 import minho.springserver.dao.UserRepository;
+import minho.springserver.entity.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,13 @@ public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
     private final UserRepository userRepository;
 
+    private final UsersRepository usersRepository;
+
     @Autowired
     /* 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다. */
-    public AuthController(UserRepository userRepository) {
+    public AuthController(UserRepository userRepository, UsersRepository usersRepository) {
         this.userRepository = userRepository;
+        this.usersRepository = usersRepository;
     }
 
     /* api
@@ -69,6 +74,12 @@ public class AuthController {
         List<User> users = userRepository.findAll();
         log.info("info log={}", email);
         log.info("info log={}", users);
+        System.out.println("@@@@@");
+        System.out.println(users);
+
+//        List<Users> _users = usersRepository.findAll();
+        Users _users = usersRepository.findById();
+        log.info("info _users log={}", _users);
         return "ok" ;
     }
 
