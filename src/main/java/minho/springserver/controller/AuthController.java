@@ -44,12 +44,12 @@ model attribute
 
 /* @RestController = @Controller + @ResponseBody */
 
+
+/* @RestController -> @Controller에 @Component가 있습니다. */
 @RestController
-/* @RestController -> @Controller에 @ComponentScan이 있습니다. */
 public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
     private final UserRepository userRepository;
-
     private final UsersRepository usersRepository;
 
     @Autowired

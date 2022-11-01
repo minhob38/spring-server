@@ -18,7 +18,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class AuthApp {
     public static void main(String[] args) {
-        String mode = "w auto bean"; // w/o config & w config & w bean & w auto bean
+        String mode = "w bean"; // w/o config & w config & w bean & w auto bean
 
         if (mode == "w/o config") {
             System.out.println("=== w/o config ===");
