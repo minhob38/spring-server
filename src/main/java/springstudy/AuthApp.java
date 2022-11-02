@@ -11,7 +11,7 @@
 - getBeansOfType(bean type)으로 같은 type의 모든 bean을 조회할 수 있습니다.
  */
 
-package minho.springserver.springstudy;
+package springstudy;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

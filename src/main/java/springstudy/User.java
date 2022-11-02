@@ -1,4 +1,4 @@
-package minho.springserver.springstudy;
+package springstudy;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -13,7 +13,7 @@
 - @Bean이 붙은 method를 실행하여 반환된 instance(bean)를 spring container에 등록합니다.
 */
 
-package minho.springserver.springstudy;
+package springstudy;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

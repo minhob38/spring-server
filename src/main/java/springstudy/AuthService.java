@@ -1,4 +1,4 @@
-package minho.springserver.springstudy;
+package springstudy;
 
 public interface AuthService {
     void signUp(String email, String password);

@@ -5,7 +5,7 @@
 - @AutoWired가 붙은 생성자에 DI를 해줍니다.
 */
 
-package minho.springserver.springstudy;
+package springstudy;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.*;

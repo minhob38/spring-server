@@ -14,7 +14,7 @@
 - InitializingBean /  DisposableBean
  */
 
-package minho.springserver.springstudy;
+package springstudy;
 
 public interface UserRepository {
     User findUserByEmail(String email);
