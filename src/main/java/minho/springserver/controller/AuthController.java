@@ -1,6 +1,7 @@
 package minho.springserver.controller;
 
 import minho.springserver.dao.UsersRepository;
+import minho.springserver.dto.PostSignupResponse;
 import minho.springserver.dto.User;
 import minho.springserver.dao.UserRepository;
 import minho.springserver.entity.Users;
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,22 +46,25 @@ model attribute
 - @ResponseBody + return <해당 Data Class>
  */
 
-/* @RestController = @Controller + @ResponseBody */
-
-
-/* @RestController -> @Controller에 @Component가 있습니다. */
+/*
+[Controller]
+- @RestController는 @Controller + @ResponseBody와 같습니다.
+- @RestController -> @Controller에 @Component가 있습니다.
+- @RestController는 @RsponseBody를 가지고 있어, view template을 찾지 않습니다.
+*/
 @RestController
 public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
     private final UserRepository userRepository;
     private final UsersRepository usersRepository;
-//    private final AuthService authService;
+    private final AuthService authService;
+
     @Autowired
     /* 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다. */
-    public AuthController(UserRepository userRepository, UsersRepository usersRepository) {
+    public AuthController(UserRepository userRepository, UsersRepository usersRepository, AuthService authService) {
         this.userRepository = userRepository;
         this.usersRepository = usersRepository;
-//        this.authService = authService;
+        this.authService = authService;
     }
 
     /* api
@@ -66,23 +72,35 @@ public class AuthController {
     https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-methods
     */
     @RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
-    public String postSignUp(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<PostSignupResponse> postSignUp(HttpServletRequest request, HttpServletResponse response) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        userRepository.save(user);
-        List<User> users = userRepository.findAll();
-        log.info("info log={}", email);
-        log.info("info log={}", users);
-        System.out.println("@@@@@");
-        System.out.println(users);
+        System.out.println("======");
 
-//        List<Users> _users = usersRepository.findAll();
-        Users _users = usersRepository.findById();
-        log.info("info _users log={}", _users);
-        return "ok" ;
+        boolean isUser = this.authService.getIsUser();
+        PostSignupResponse postSignupResponse = new PostSignupResponse();
+        postSignupResponse.setMessage("user already exists");
+
+        if (isUser) {
+            System.out.println(postSignupResponse);
+            return new ResponseEntity<>(postSignupResponse, HttpStatus.CREATED);
+        }
+        System.out.println(isUser);
+//
+//        User user = new User();
+//        user.setEmail(email);
+//        user.setPassword(password);
+//        userRepository.save(user);
+//        List<User> users = userRepository.findAll();
+//        log.info("info log={}", email);
+//        log.info("info log={}", users);
+//        System.out.println("@@@@@");
+//        System.out.println(users);
+//
+////        List<Users> _users = usersRepository.findAll();
+//        Users _users = usersRepository.findById();
+//        log.info("info _users log={}", _users);
+        return new ResponseEntity<>(postSignupResponse, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/api/auth/signin")
