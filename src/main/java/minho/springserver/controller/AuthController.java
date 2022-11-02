@@ -1,7 +1,9 @@
 package minho.springserver.controller;
 
 import minho.springserver.dao.UsersRepository;
+import minho.springserver.dto.ErrorResponse;
 import minho.springserver.dto.PostSignupResponse;
+import minho.springserver.dto.SuccessResponse;
 import minho.springserver.dto.User;
 import minho.springserver.dao.UserRepository;
 import minho.springserver.entity.Users;
@@ -72,21 +74,25 @@ public class AuthController {
     https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-methods
     */
     @RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
-    public ResponseEntity<PostSignupResponse> postSignUp(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> postSignUp(HttpServletRequest request, HttpServletResponse response) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        System.out.println("======");
 
         boolean isUser = this.authService.getIsUser();
-        PostSignupResponse postSignupResponse = new PostSignupResponse();
-        postSignupResponse.setMessage("user already exists");
-
+System.out.println(isUser);
         if (isUser) {
-            System.out.println(postSignupResponse);
-            return new ResponseEntity<>(postSignupResponse, HttpStatus.CREATED);
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setMessage("user already exists");
+            System.out.println(errorResponse);
+            return new ResponseEntity<>(errorResponse, HttpStatus.CREATED);
         }
-        System.out.println(isUser);
-//
+
+        String hash = this.authService.createHash(password);
+        String token = this.authService.createToken(email);
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("user signed up");
+        successResponse.setData("token");
+        return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
 //        User user = new User();
 //        user.setEmail(email);
 //        user.setPassword(password);
@@ -100,7 +106,6 @@ public class AuthController {
 ////        List<Users> _users = usersRepository.findAll();
 //        Users _users = usersRepository.findById();
 //        log.info("info _users log={}", _users);
-        return new ResponseEntity<>(postSignupResponse, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/api/auth/signin")
