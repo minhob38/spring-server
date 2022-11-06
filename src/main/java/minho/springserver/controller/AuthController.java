@@ -1,10 +1,7 @@
 package minho.springserver.controller;
 
 import minho.springserver.dao.UsersRepository;
-import minho.springserver.dto.ErrorResponse;
-import minho.springserver.dto.PostSignupResponse;
-import minho.springserver.dto.SuccessResponse;
-import minho.springserver.dto.User;
+import minho.springserver.dto.*;
 import minho.springserver.dao.UserRepository;
 import minho.springserver.entity.Users;
 import minho.springserver.service.AuthService;
@@ -28,8 +25,9 @@ import java.util.Map;
 - request.getParameter - (HttpServletRequest instance)
 - @RequestParam("key")
 - @RequestParam Map<String, Object>
-model attribute
-* path parameter
+- model attribute
+* path parameter 요청
+-
 
 * body 요청
 - InputStream + ObjectMapper
@@ -52,7 +50,7 @@ model attribute
 [Controller]
 - @RestController는 @Controller + @ResponseBody와 같습니다.
 - @RestController -> @Controller에 @Component가 있습니다.
-- @RestController는 @RsponseBody를 가지고 있어, view template을 찾지 않습니다.
+- @RestController는 @ResponseBody를 가지고 있어, view template을 찾지 않습니다.
 */
 @RestController
 public class AuthController {
@@ -79,7 +77,7 @@ public class AuthController {
         String password = request.getParameter("password");
 
         boolean isUser = this.authService.getIsUser();
-System.out.println(isUser);
+        System.out.println(isUser);
         if (isUser) {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setMessage("user already exists");
@@ -109,10 +107,13 @@ System.out.println(isUser);
     }
 
     @PostMapping(value = "/api/auth/signin")
-    public String postSignIn() {
-        String name = "Spring";
-        log.info("info log={}", name);
-        return "ok" ;
+    public SuccessResponse postSignIn(@RequestParam("email") String email, @RequestParam("password") String password) {
+        AccessToken accessToken = new AccessToken();
+        accessToken.setAccessToken("token...");
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("user signed in");
+        successResponse.setData(accessToken);
+        return successResponse;
     }
 
     @PatchMapping(value = "/api/auth/password")
