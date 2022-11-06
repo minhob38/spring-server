@@ -117,10 +117,12 @@ public class AuthController {
     }
 
     @PatchMapping(value = "/api/auth/password")
-    public String patchPassword() {
-        String name = "Spring";
-        log.info("info log={}", name);
-        return "ok" ;
+    public SuccessResponse patchPassword(@ModelAttribute PatchPasswordForm patchPasswordForm) {
+        String email = patchPasswordForm.getCurrentPassword();
+        String password = patchPasswordForm.getNewPassword();
+        System.out.println(email + password);
+        SuccessResponse successResponse = new SuccessResponse();
+        return successResponse;
     }
 
     @DeleteMapping(value = "/api/auth/signout")
