@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,11 +118,16 @@ public class AuthController {
         return successResponse;
     }
 
+    /* BidingResult를 인자로 넘겨주면, controller가 실행됩니다. */
     @PatchMapping(value = "/api/auth/password")
-    public SuccessResponse patchPassword(@Validated @ModelAttribute PatchPasswordForm patchPasswordForm) {
-        String email = patchPasswordForm.getCurrentPassword();
-        String password = patchPasswordForm.getNewPassword();
-        System.out.println(email + password);
+    public SuccessResponse patchPassword(@Validated @ModelAttribute PatchPasswordForm patchPasswordForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println((bindingResult.getAllErrors()));
+        }
+        String currentPassowrd = patchPasswordForm.getCurrentPassword();
+        String newPassword = patchPasswordForm.getNewPassword();
+        System.out.println("/api/auth/password");
         SuccessResponse successResponse = new SuccessResponse();
         return successResponse;
     }
