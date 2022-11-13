@@ -30,9 +30,9 @@ import java.util.Optional;
 - request.getParameter - (HttpServletRequest instance)
 - @RequestParam("key")
 - @RequestParam Map<String, Object>
-- model attribute
+- @ModelAttribute
 * path parameter 요청
--
+- @PathVariable
 
 * body 요청
 - InputStream + ObjectMapper
@@ -101,16 +101,16 @@ public class AuthController {
     }
 
     @PostMapping(value = "/api/auth/signin")
-    public  ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
-        Optional<Users> user =  this.usersRepository.findByEmail(email);
+    public ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
+        Users user =  this.usersRepository.findByEmail(email).orElse(null);
 
-        if (user.isEmpty()) {
+        if (user == null) {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setMessage("user does not exists");
             return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
         }
 
-        String hash = user.get().getPassword();
+        String hash = user.getPassword();
         boolean isMatchPassword = this.authService.checkIsMatchPassword(password, hash);
 
         if (!isMatchPassword) {
@@ -127,6 +127,16 @@ public class AuthController {
 
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/api/auth/me")
+    public ResponseEntity<?> getMe(@SessionAttribute(name = "auth-session", required = false) Users user) {
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("my information");
+        successResponse.setData(user);
+
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
+
 
     /* BidingResult를 인자로 넘겨주면, controller가 실행됩니다. */
     @PatchMapping(value = "/api/auth/password")
