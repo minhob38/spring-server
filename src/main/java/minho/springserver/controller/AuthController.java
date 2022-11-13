@@ -78,13 +78,11 @@ public class AuthController {
     */
     @RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
     public ResponseEntity<?> postSignUp(HttpServletRequest request, HttpServletResponse response) {
+        log.info("info api log={}", "/api/auth/signup");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         Optional<Users> user = this.usersRepository.findByEmail(email);
-
-        System.out.println("!!!!!");
-        System.out.println(user == null);
 
         if (user.isPresent()) {
             ErrorResponse errorResponse = new ErrorResponse();
@@ -96,24 +94,10 @@ public class AuthController {
         String hash = this.authService.createHash(password);
         this.usersRepository.saveUser(email, hash);
 
-        String token = this.authService.createToken(email);
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed up");
         successResponse.setData("token");
         return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
-//        User user = new User();
-//        user.setEmail(email);
-//        user.setPassword(password);
-//        userRepository.save(user);
-//        List<User> users = userRepository.findAll();
-//        log.info("info log={}", email);
-//        log.info("info log={}", users);
-//        System.out.println("@@@@@");
-//        System.out.println(users);
-//
-////        List<Users> _users = usersRepository.findAll();
-//        Users _users = usersRepository.findById();
-//        log.info("info _users log={}", _users);
     }
 
     @PostMapping(value = "/api/auth/signin")
