@@ -20,8 +20,18 @@ public class UsersRepository {
         return result;
     }
 
-    public Users findById() {
-        Users result = this.em.find(Users.class,1L);
+    public Users findByEmail(String email) {
+        Users user = this.em.createQuery("select u from Users u where u.email = :email", Users.class)
+                .setParameter("email", email)
+                .getSingleResult();
+        /* class toString method는 인스턴스의 해시주소를 hex형태로 반환합니다. */
+        System.out.println(Integer.toHexString(user.hashCode()));
+        System.out.println(user);
+        return user;
+    }
+
+    public Users findById(Long id) {
+        Users result = this.em.find(Users.class, id);
         return result;
     }
 }

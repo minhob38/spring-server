@@ -78,8 +78,11 @@ public class AuthController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        boolean isUser = this.authService.getIsUser();
-        System.out.println(isUser);
+
+
+
+        System.out.println();
+        boolean isUser = this.authService.getIsUser(email);
         if (isUser) {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setMessage("user already exists");
