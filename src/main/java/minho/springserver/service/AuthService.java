@@ -5,6 +5,8 @@ import minho.springserver.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class AuthService {
     private final UsersRepository usersRepository;
@@ -16,7 +18,7 @@ public class AuthService {
 
 
     public boolean getIsUser(String email) {
-        Users user = this.usersRepository.findByEmail(email);
+        Optional<Users> user = this.usersRepository.findByEmail(email);
         return false;
     }
 
