@@ -1,28 +1,30 @@
 package minho.springserver.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
-@Getter
+@Getter @Setter
 @Entity
 @Table(name = "users", schema = "public")
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
     private String password;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
-    private String createdAt;
+    private Date createdAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
-    private String updatedAt;
+    private Date updatedAt;
 
     @Override
     public  String toString() {

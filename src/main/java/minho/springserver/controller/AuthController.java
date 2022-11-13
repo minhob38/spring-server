@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /*
 [Request]
@@ -54,6 +56,7 @@ import java.util.Map;
 - @RestController -> @Controller에 @Component가 있습니다.
 - @RestController는 @ResponseBody를 가지고 있어, view template을 찾지 않습니다.
 */
+@Transactional
 @RestController
 public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
@@ -78,12 +81,12 @@ public class AuthController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        Optional<Users> user = this.usersRepository.findByEmail(email);
 
+        System.out.println("!!!!!");
+        System.out.println(user == null);
 
-
-        System.out.println();
-        boolean isUser = this.authService.getIsUser(email);
-        if (isUser) {
+        if (user.isPresent()) {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setMessage("user already exists");
             System.out.println(errorResponse);
@@ -91,6 +94,8 @@ public class AuthController {
         }
 
         String hash = this.authService.createHash(password);
+        this.usersRepository.saveUser(email, hash);
+
         String token = this.authService.createToken(email);
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed up");

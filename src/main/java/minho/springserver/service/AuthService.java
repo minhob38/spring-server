@@ -16,12 +16,6 @@ public class AuthService {
         this.usersRepository = usersRepository;
     }
 
-
-    public boolean getIsUser(String email) {
-        Optional<Users> user = this.usersRepository.findByEmail(email);
-        return false;
-    }
-
     public String createHash(String password) {
         return "hash";
     }

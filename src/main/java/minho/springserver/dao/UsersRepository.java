@@ -4,13 +4,18 @@ import minho.springserver.entity.Users;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class UsersRepository {
     private final EntityManager em;
+
 
     public UsersRepository(EntityManager em) {
         this.em = em;
@@ -35,6 +40,16 @@ public class UsersRepository {
             System.out.println("해당 email의 회원이 없습니다. : (");
             return Optional.ofNullable(null);
         }
+    }
+
+    public Long saveUser(String email, String hash) {
+        Users user = new Users();
+        user.setEmail(email);
+        user.setPassword(hash);
+        /* Date -> ZonedLocalDate로 바꾸기 */
+        user.setCreatedAt(new Date());
+        this.em.persist(user);
+        return user.getId();
     }
 
     public Users findById(Long id) {
