@@ -17,10 +17,15 @@ public class AuthService {
     }
 
     public String createHash(String password) {
-        return "hash";
+        return password;
     }
 
     public String createToken(String email) {
         return "token";
+    }
+
+    public boolean checkIsMatchPassword(String password, String hash) {
+        if (password.equals(hash)) return true;
+        return false;
     }
 }

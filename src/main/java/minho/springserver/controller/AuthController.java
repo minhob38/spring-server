@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
@@ -87,8 +88,7 @@ public class AuthController {
         if (user.isPresent()) {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setMessage("user already exists");
-            System.out.println(errorResponse);
-            return new ResponseEntity<>(errorResponse, HttpStatus.CREATED);
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
         }
 
         String hash = this.authService.createHash(password);
@@ -101,13 +101,31 @@ public class AuthController {
     }
 
     @PostMapping(value = "/api/auth/signin")
-    public SuccessResponse postSignIn(@RequestParam("email") String email, @RequestParam("password") String password) {
-        AccessToken accessToken = new AccessToken();
-        accessToken.setAccessToken("token...");
+    public  ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
+        Optional<Users> user =  this.usersRepository.findByEmail(email);
+
+        if (user.isEmpty()) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setMessage("user does not exists");
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        }
+
+        String hash = user.get().getPassword();
+        boolean isMatchPassword = this.authService.checkIsMatchPassword(password, hash);
+
+        if (!isMatchPassword) {
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setMessage("password is invalid");
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("auth-session", user);
+
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed in");
-        successResponse.setData(accessToken);
-        return successResponse;
+
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
     /* BidingResult를 인자로 넘겨주면, controller가 실행됩니다. */
