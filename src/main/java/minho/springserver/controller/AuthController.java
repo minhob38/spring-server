@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -126,6 +127,19 @@ public class AuthController {
         successResponse.setMessage("user signed in");
 
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/api/auth/logout")
+    public String postLogout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) session.invalidate();
+
+        /* cookie 지우기 (path도 설정) */
+        Cookie cookie = new Cookie("JSESSIONID", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "user logged out" ;
     }
 
     @GetMapping(value = "/api/auth/me")
