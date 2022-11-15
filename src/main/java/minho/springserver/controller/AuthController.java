@@ -5,25 +5,17 @@ import minho.springserver.dto.*;
 import minho.springserver.dao.UserRepository;
 import minho.springserver.entity.Users;
 import minho.springserver.service.AuthService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /*
 [Request]
@@ -121,7 +113,7 @@ public class AuthController {
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("auth-session", user);
+        session.setAttribute("auth-key", user);
 
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed in");
@@ -143,7 +135,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/api/auth/me")
-    public ResponseEntity<?> getMe(@SessionAttribute(name = "auth-session", required = false) Users user) {
+    public ResponseEntity<?> getMe(@SessionAttribute(name = "auth-key", required = false) Users user) {
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("my information");
         successResponse.setData(user);
