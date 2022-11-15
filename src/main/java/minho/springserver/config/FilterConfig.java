@@ -11,7 +11,6 @@ import javax.servlet.Filter;
 public class FilterConfig {
     @Bean
     public FilterRegistrationBean authCheckFilter() {
-        System.out.println("authCheckFilter");
         FilterRegistrationBean<Filter> filterRegistrationBean =  new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new AuthCheckFilter());
         filterRegistrationBean.setOrder(1);
