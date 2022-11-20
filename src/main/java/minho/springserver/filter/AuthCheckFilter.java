@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 public class AuthCheckFilter implements Filter {
     private static final String[] nochecks = {"/api/auth/signup", "/api/auth/signin"};
-    private boolean checkisAuthCheckPath(String requestURI) {
+    private boolean checkIsAuthCheckPath(String requestURI) {
         return !PatternMatchUtils.simpleMatch(nochecks, requestURI);
     }
 
@@ -22,7 +22,7 @@ public class AuthCheckFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
 
         try {
-            if (!this.checkisAuthCheckPath(requestURI)) {
+            if (!this.checkIsAuthCheckPath(requestURI)) {
                 chain.doFilter(request, response);
                 return;
             }
