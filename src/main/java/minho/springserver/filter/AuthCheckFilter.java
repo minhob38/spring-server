@@ -32,6 +32,7 @@ public class AuthCheckFilter implements Filter {
                 ErrorResponse errorResponse = new ErrorResponse();
                 errorResponse.setMessage("session does not exist");
                 new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+                response.getWriter().write("json으로 응답하기");
                 return;
             }
 
