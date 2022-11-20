@@ -4,6 +4,7 @@ import minho.springserver.dao.UsersRepository;
 import minho.springserver.dto.*;
 import minho.springserver.dao.UserRepository;
 import minho.springserver.entity.Users;
+import minho.springserver.exception.AuthException;
 import minho.springserver.service.AuthService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,12 +67,21 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({AuthException.class})
+    public ErrorResponse unauthorizedErrorHandler(AuthException e) {
+        System.out.println("auth exception handler");
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(e.getMessage());
+        return errorResponse;
+    }
+
     /* api
     https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestmapping
     https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-methods
     */
     @RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
-    public ResponseEntity<?> postSignUp(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> postSignUp(HttpServletRequest request, HttpServletResponse response) throws AuthException {
         log.info("info api log={}", "/api/auth/signup");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -79,9 +89,7 @@ public class AuthController {
         Optional<Users> user = this.usersRepository.findByEmail(email);
 
         if (user.isPresent()) {
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setMessage("user already exists");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+            throw new AuthException("user already exists");
         }
 
         String hash = this.authService.createHash(password);
@@ -94,22 +102,18 @@ public class AuthController {
     }
 
     @PostMapping(value = "/api/auth/signin")
-    public ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
+    public ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) throws AuthException {
         Users user =  this.usersRepository.findByEmail(email).orElse(null);
 
         if (user == null) {
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setMessage("user does not exists");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+            throw new AuthException("user does not exists");
         }
 
         String hash = user.getPassword();
         boolean isMatchPassword = this.authService.checkIsMatchPassword(password, hash);
 
         if (!isMatchPassword) {
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setMessage("password is invalid");
-            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+            throw new AuthException("password is invalid");
         }
 
         HttpSession session = request.getSession();
@@ -143,7 +147,6 @@ public class AuthController {
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
-
     /* BidingResult를 인자로 넘겨주면, controller가 실행됩니다. */
     @PatchMapping(value = "/api/auth/password")
     public SuccessResponse patchPassword(@Validated @ModelAttribute PatchPasswordForm patchPasswordForm, BindingResult bindingResult) {
@@ -165,6 +168,8 @@ public class AuthController {
         return "ok" ;
     }
 
+
+    // 아래 handler들은 board api 만들면 지우기
     @GetMapping
     public String mappingPath(@PathVariable("userId") String userId) {
         log.info("mappingPath userId={}", userId);
