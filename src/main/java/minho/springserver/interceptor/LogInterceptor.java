@@ -10,7 +10,7 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestUri = request.getRequestURI();
-        System.out.println("interceptor:preHandle" + " / " + "endpoint:" + requestUri);
+        System.out.println("interceptor:preHandle" + " & " + "endpoint:" + requestUri);
         long startedAt = System.currentTimeMillis();
         request.setAttribute("startedAt", startedAt);
         return true;
@@ -19,7 +19,7 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         String requestUri = request.getRequestURI();
-        System.out.println("interceptor:postHandle" + " / " + "endpoint:" + requestUri);
+        System.out.println("interceptor:postHandle" + " & " + "endpoint:" + requestUri);
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 
@@ -29,6 +29,6 @@ public class LogInterceptor implements HandlerInterceptor {
         long finishedAt = System.currentTimeMillis();
         long startedAt = (long)request.getAttribute("startedAt");
         long responseTime = finishedAt - startedAt;
-        System.out.println("interceptor:afterCompletion" + " / " + "endpoint:" + requestUri + " / " + "response time(ms):" + responseTime);
+        System.out.println("interceptor:afterCompletion" + " & " + "endpoint:" + requestUri + " & " + "response time(ms):" + responseTime);
     }
 }
