@@ -69,7 +69,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({AuthException.class})
-    public ErrorResponse unauthorizedErrorHandler(AuthException e) {
+    public ErrorResponse authErrorHandler(AuthException e) {
         System.out.println("auth exception handler");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());
