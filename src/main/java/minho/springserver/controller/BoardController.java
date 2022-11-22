@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import minho.springserver.dao.PostsRepository;
 import minho.springserver.dto.Post;
 import minho.springserver.dto.SuccessResponse;
+import minho.springserver.entity.Posts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Slf4j
 @Transactional
@@ -37,15 +41,24 @@ public class BoardController {
         String author = post.getAuthor();
         String title = post.getTitle();
         String content = post.getContent();
-        this.postsRepository.savePost(author, title, content);
+        this.postsRepository.save(author, title, content);
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("created post");
         String successResponseAsJson = objectMapper.writeValueAsString(successResponse);
         response.getWriter().write(successResponseAsJson);
     }
 
+    @GetMapping(value = "/posts")
+    public ResponseEntity<SuccessResponse> getPosts(HttpServletRequest request, HttpServletResponse response) {
+        List<Posts> posts = this.postsRepository.findAll();
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("found post");
+        successResponse.setData(posts);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
+
     /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
-    @PatchMapping(value = "/api/board/posts")
+    @PatchMapping(value = "/posts")
     public String patchPost(@RequestBody Post post) { //@Requestbody를 생략하면, @ModelAttribute가 붙음
         log.info("author={}, title={}, content={}", post.getAuthor(), post.getTitle(), post.getContent());
         return "ok";

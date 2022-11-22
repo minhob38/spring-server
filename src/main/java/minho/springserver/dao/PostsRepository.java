@@ -19,7 +19,7 @@ public class PostsRepository {
         this.em = em;
     }
 
-    public Long savePost(String author, String title, String content) {
+    public Long save(String author, String title, String content) {
       Posts post = new Posts();
       post.setAuthor(author);
       post.setTitle(title);
@@ -29,6 +29,10 @@ public class PostsRepository {
       return post.getId();
     }
 
+    public List<Posts> findAll() {
+        List<Posts> posts = this.em.createQuery("select p from Posts p", Posts.class).getResultList();
+        return posts;
+    }
 //    public List<Users> findAll() {
 //        List<Users> result = this.em.createQuery("select u from Users u", Users.class).getResultList();
 //        return result;
