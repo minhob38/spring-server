@@ -1,5 +1,6 @@
 package minho.springserver.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import minho.springserver.dto.ErrorResponse;
 import org.springframework.http.*;
 import org.springframework.util.PatternMatchUtils;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 public class AuthCheckFilter implements Filter {
     private static final String[] nochecks = {"/api/auth/signup", "/api/auth/signin"};
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     private boolean checkIsAuthCheckPath(String requestURI) {
         return !PatternMatchUtils.simpleMatch(nochecks, requestURI);
     }
@@ -32,7 +34,10 @@ public class AuthCheckFilter implements Filter {
                 ErrorResponse errorResponse = new ErrorResponse();
                 errorResponse.setMessage("session does not exist");
                 new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
-                response.getWriter().write("json으로 응답하기");
+                String errorResponseJson = objectMapper.writeValueAsString(errorResponse);
+                // TODO: status code, header 설정 (HttpServletResponse로)
+                response.setContentType("application/json");
+                response.getWriter().write(errorResponseJson);
                 return;
             }
 

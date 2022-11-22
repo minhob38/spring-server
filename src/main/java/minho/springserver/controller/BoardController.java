@@ -22,12 +22,12 @@ import java.nio.charset.StandardCharsets;
 @RestController
 public class BoardController {
     private final PostsRepository postsRepository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public BoardController(PostsRepository postsRepository) {
         this.postsRepository = postsRepository;
     }
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping(value = "/posts")
     public void postPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
