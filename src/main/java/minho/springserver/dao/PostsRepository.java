@@ -33,6 +33,11 @@ public class PostsRepository {
         List<Posts> posts = this.em.createQuery("select p from Posts p", Posts.class).getResultList();
         return posts;
     }
+
+    public Posts findById(Long id) {
+        Posts post = this.em.find(Posts.class, id);
+        return post;
+    }
 //    public List<Users> findAll() {
 //        List<Users> result = this.em.createQuery("select u from Users u", Users.class).getResultList();
 //        return result;

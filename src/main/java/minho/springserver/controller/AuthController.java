@@ -90,7 +90,7 @@ public class AuthController {
         }
 
         String hash = this.authService.createHash(password);
-        this.usersRepository.saveUser(email, hash);
+        this.usersRepository.save(email, hash);
 
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed up");

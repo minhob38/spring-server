@@ -39,7 +39,7 @@ public class UsersRepository {
         }
     }
 
-    public Long saveUser(String email, String hash) {
+    public Long save(String email, String hash) {
         Users user = new Users();
         user.setEmail(email);
         user.setPassword(hash);

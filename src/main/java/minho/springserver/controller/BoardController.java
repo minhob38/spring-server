@@ -49,11 +49,22 @@ public class BoardController {
     }
 
     @GetMapping(value = "/posts")
-    public ResponseEntity<SuccessResponse> getPosts(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<SuccessResponse> getPosts() {
         List<Posts> posts = this.postsRepository.findAll();
         SuccessResponse successResponse = new SuccessResponse();
-        successResponse.setMessage("found post");
+        successResponse.setMessage("found posts");
         successResponse.setData(posts);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
+
+    // TODO: bean validation 처리
+    @GetMapping(value = "/posts/{postId}")
+    public ResponseEntity<SuccessResponse> getPost(@PathVariable("postId") Long postId) {
+        System.out.println(postId.getClass().getName()); // Long으로 자동 형변환 되는듯 합니다. : )
+        Posts post = this.postsRepository.findById(postId);
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("found post");
+        successResponse.setData(post);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
