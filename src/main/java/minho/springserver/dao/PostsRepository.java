@@ -25,6 +25,7 @@ public class PostsRepository {
       post.setAuthor(author);
       post.setTitle(title);
       post.setContent(content);
+      post.setCreatedAt(new Date()); // TODO: entity default 정의
       em.persist(post);
       return post.getId();
     }
