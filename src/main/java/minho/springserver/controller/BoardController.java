@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import minho.springserver.dao.PostsRepository;
 import minho.springserver.dto.Post;
+import minho.springserver.dto.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +33,15 @@ public class BoardController {
     public void postPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletInputStream inputStream = request.getInputStream();
         String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-        log.info("info log={}",  messageBody);
         Post post = objectMapper.readValue(messageBody, Post.class);
         String author = post.getAuthor();
         String title = post.getTitle();
         String content = post.getContent();
         this.postsRepository.savePost(author, title, content);
-        response.getWriter().write("ok");
-        log.info("author={}, title={}, content={}", post.getAuthor(), post.getTitle(), post.getContent());
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("created post");
+        String successResponseAsJson = objectMapper.writeValueAsString(successResponse);
+        response.getWriter().write(successResponseAsJson);
     }
 
     /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */

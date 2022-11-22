@@ -15,7 +15,6 @@ import java.util.Optional;
 public class PostsRepository {
     private final EntityManager em;
 
-
     public PostsRepository(EntityManager em) {
         this.em = em;
     }
