@@ -167,13 +167,6 @@ public class AuthController {
 
 
     // 아래 handler들은 board api 만들면 지우기
-    @GetMapping
-    public String mappingPath(@PathVariable("userId") String userId) {
-        log.info("mappingPath userId={}", userId);
-        return "ok";
-    }
-
-
     @GetMapping(value = "/headers")
     public String headers(HttpServletRequest request,
                           HttpServletResponse response,
