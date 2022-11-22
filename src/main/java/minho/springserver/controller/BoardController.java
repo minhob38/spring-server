@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import minho.springserver.dto.Post;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +13,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
+@RequestMapping(value = "/api/board")
 @RestController
 public class BoardController {
 
-    // ObjectMapper?
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    // throws IOException?, inputStream?
-    @PostMapping(value = "/api/board/posts")
+    @PostMapping(value = "/posts")
     public void postPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletInputStream inputStream = request.getInputStream();
         String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
