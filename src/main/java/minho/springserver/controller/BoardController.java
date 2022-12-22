@@ -73,5 +73,13 @@ public class BoardController {
         successResponse.setMessage("edited post");
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/posts/{postId}")
+    public ResponseEntity<SuccessResponse> deletePost(@PathVariable("postId") Long postId) {
+        this.postsRepository.delete(postId);
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("deleted post");
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
 }
 

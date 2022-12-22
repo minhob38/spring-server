@@ -44,38 +44,9 @@ public class PostsRepository {
         Posts post = this.findById(id);
         post.setContent(content);
     }
-//    public List<Users> findAll() {
-//        List<Users> result = this.em.createQuery("select u from Users u", Users.class).getResultList();
-//        return result;
-//    }
-//
-//    public Optional<Users> findByEmail(String email) {
-//        try {
-//        Users user = this.em.createQuery("select u from Users u where u.email = :email", Users.class)
-//                .setParameter("email", email)
-//                .getSingleResult();
-//        /* class toString method는 인스턴스의 해시주소를 hex형태로 반환합니다. */
-//        System.out.println(Integer.toHexString(user.hashCode()));
-//        System.out.println(user);
-//        return Optional.of(user);
-//        } catch (NoResultException e)  {
-//            System.out.println("해당 email의 회원이 없습니다. : (");
-//            return Optional.ofNullable(null);
-//        }
-//    }
-//
-//    public Long saveUser(String email, String hash) {
-//        Users user = new Users();
-//        user.setEmail(email);
-//        user.setPassword(hash);
-//        /* Date -> ZonedLocalDate로 바꾸기 */
-//        user.setCreatedAt(new Date());
-//        this.em.persist(user);
-//        return user.getId();
-//    }
-//
-//    public Users findById(Long id) {
-//        Users result = this.em.find(Users.class, id);
-//        return result;
-//    }
+
+    public void delete(Long id) {
+        Posts post = this.findById(id);
+        this.em.remove(post);
+    }
 }
