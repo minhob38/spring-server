@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletInputStream;
@@ -31,7 +32,7 @@ public class BoardController {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping(value = "/posts")
-    public void postPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void postPost(@Validated HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletInputStream inputStream = request.getInputStream();
         String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
         Post post = objectMapper.readValue(messageBody, Post.class);
