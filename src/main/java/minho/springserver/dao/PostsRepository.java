@@ -38,6 +38,12 @@ public class PostsRepository {
         Posts post = this.em.find(Posts.class, id);
         return post;
     }
+
+    public void update(Long id, Post update) {
+        String content = update.getContent();
+        Posts post = this.findById(id);
+        post.setContent(content);
+    }
 //    public List<Users> findAll() {
 //        List<Users> result = this.em.createQuery("select u from Users u", Users.class).getResultList();
 //        return result;

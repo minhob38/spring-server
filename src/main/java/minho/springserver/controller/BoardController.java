@@ -69,31 +69,12 @@ public class BoardController {
     }
 
     /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
-    @PatchMapping(value = "/posts")
-    public String patchPost(@RequestBody Post post) { //@Requestbody를 생략하면, @ModelAttribute가 붙음
-        log.info("author={}, title={}, content={}", post.getAuthor(), post.getTitle(), post.getContent());
-        return "ok";
+    @PatchMapping(value = "/posts/{postId}")
+    public ResponseEntity<SuccessResponse> patchPost(@RequestBody Post update, @PathVariable("postId") Long postId) { //@Requestbody를 생략하면, @ModelAttribute가 붙음
+        this.postsRepository.update(postId, update);
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("edited post");
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
-//    @PostMapping(value = "/api/board/posts")
-//    public void postPost(InputStream inputStream, Writer reponseWriter) throws IOException {
-//        String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-//        log.info("info log={}",  messageBody);
-//        reponseWriter.write("ok");
-//    }
-
-//    @PostMapping(value = "/api/board/posts")
-//    public HttpEntity<String> postPost(HttpEntity<String> httpEntity) throws IOException {
-//        String messageBody = httpEntity.getBody();
-//        log.info("info log={}",  messageBody);
-//       return new HttpEntity<>("ok"); // Response entity, request entity
-//    }
-
-    // @ResponseBody
-    //    @PostMapping(value = "/api/board/posts")
-//    public HttpEntity<String> postPost(@RequestBody String messageBody) throws IOException {
-//        String messageBody = httpEntity.getBody();
-//        log.info("info log={}",  messageBody);
-//       return new HttpEntity<>("ok"); // Response entity, request entity
-//    }
 }
 
