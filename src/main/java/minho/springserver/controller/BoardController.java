@@ -1,6 +1,7 @@
 package minho.springserver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import minho.springserver.dao.PostsRepository;
 import minho.springserver.dto.Post;
@@ -22,16 +23,12 @@ import java.util.List;
 
 @Slf4j
 @Transactional
+@RequiredArgsConstructor // private final variable 기반의 constructor를 만듭니다.
 @RequestMapping(value = "/api/board")
 @RestController
 public class BoardController {
     private final PostsRepository postsRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @Autowired
-    public BoardController(PostsRepository postsRepository) {
-        this.postsRepository = postsRepository;
-    }
 
     @PostMapping(value = "/posts")
     public void postPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
