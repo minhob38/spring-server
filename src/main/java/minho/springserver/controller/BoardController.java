@@ -41,6 +41,7 @@ public class BoardController {
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("created post");
         String successResponseAsJson = objectMapper.writeValueAsString(successResponse);
+        response.setContentType("application/json");
         response.getWriter().write(successResponseAsJson);
     }
 
