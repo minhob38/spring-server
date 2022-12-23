@@ -7,13 +7,11 @@ import minho.springserver.dao.PostsRepository;
 import minho.springserver.dto.Post;
 import minho.springserver.dto.SuccessResponse;
 import minho.springserver.entity.Posts;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
