@@ -65,7 +65,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({AuthException.class})
-    public ErrorResponse authErrorHandler(AuthException e) {
+    public ErrorResponse authExceptionHandler(AuthException e) {
         System.out.println("auth exception handler");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());

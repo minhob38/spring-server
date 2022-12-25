@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class Advice {
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({AuthException.class})
-    public ErrorResponse authErrorHandler(AuthException e) {
-        System.out.println("auth exception handler");
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardException.class)
+    public ErrorResponse boardExceptionHandler(BoardException e) {
+        System.out.println("controller advice");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());
         return errorResponse;

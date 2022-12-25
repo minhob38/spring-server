@@ -7,6 +7,8 @@ import minho.springserver.dao.PostsRepository;
 import minho.springserver.dto.Post;
 import minho.springserver.dto.SuccessResponse;
 import minho.springserver.entity.Posts;
+import minho.springserver.exception.AuthException;
+import minho.springserver.exception.BoardException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
@@ -67,7 +69,10 @@ public class BoardController {
 
     /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
     @PatchMapping(value = "/posts/{postId}")
-    public ResponseEntity<SuccessResponse> patchPost(@Validated @RequestBody Post update, @PathVariable("postId") Long postId) { //@Requestbody를 생략하면, @ModelAttribute가 붙음
+    public ResponseEntity<SuccessResponse> patchPost(@Validated @RequestBody Post update, @PathVariable("postId") Long postId) throws BoardException { //@Requestbody를 생략하면, @ModelAttribute가 붙음
+        Posts post = this.postsRepository.findById(postId);
+        if (post == null) throw new BoardException("post does not exits :(");
+
         this.postsRepository.update(postId, update);
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("edited post");
