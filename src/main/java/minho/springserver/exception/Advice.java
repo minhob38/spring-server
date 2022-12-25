@@ -13,6 +13,15 @@ import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class Advice {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ErrorResponse exceptionHandler(Exception e) {
+        System.out.println("controller advice - Exception");
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(e.getMessage());
+        return errorResponse;
+    }
+    
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardException.class)
     public ErrorResponse boardExceptionHandler(BoardException e) {
