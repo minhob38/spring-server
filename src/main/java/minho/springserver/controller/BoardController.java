@@ -7,7 +7,6 @@ import minho.springserver.dao.PostsRepository;
 import minho.springserver.dto.Post;
 import minho.springserver.dto.SuccessResponse;
 import minho.springserver.entity.Posts;
-import minho.springserver.exception.AuthException;
 import minho.springserver.exception.BoardException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +17,13 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import javax.validation.constraints.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Slf4j
+@Validated // @RequestParam, @PathVariable 유효성검증을 위해 붙여야 합니다.
 @Transactional
 @RequiredArgsConstructor // private final variable 기반의 constructor를 만듭니다.
 @RequestMapping(value = "/api/board")
@@ -69,7 +70,10 @@ public class BoardController {
 
     /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
     @PatchMapping(value = "/posts/{postId}")
-    public ResponseEntity<SuccessResponse> patchPost(@Validated @RequestBody Post update, @PathVariable("postId") Long postId) throws BoardException { //@Requestbody를 생략하면, @ModelAttribute가 붙음
+    public ResponseEntity<SuccessResponse> patchPost(
+            @Validated @RequestBody Post update, // RequestBody 및 ModelAttribute는 유효성검증을 위해 @Validated가 붙어있어야 합니다.
+            @Min(1) @PathVariable("postId") Long postId
+    ) throws BoardException { //@Requestbody를 생략하면, @ModelAttribute가 붙습니다.
         Posts post = this.postsRepository.findById(postId);
         if (post == null) throw new BoardException("post does not exits :(");
 
