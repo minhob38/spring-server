@@ -9,12 +9,12 @@ import javax.validation.constraints.NotNull;
 
 @Getter @Setter
 public class Post {
-    @NotBlank(message = "author is required - '':(X) / ' ':(X) / null:(X)")
+//    @NotBlank(message = "author is required - '':(X) / ' ':(X) / null:(X)")
     String author;
 
-    @NotEmpty(message = "title is required - '':(X) / ' ':(O) / null:(X)")
+//    @NotEmpty(message = "title is required - '':(X) / ' ':(O) / null:(X)")
     String title;
 
-    @NotNull(message = "content is required - '':(O) / ' ':(O) / null:(X)")
+//    @NotNull(message = "content is required - '':(O) / ' ':(O) / null:(X)")
     String content;
 }

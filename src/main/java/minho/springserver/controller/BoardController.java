@@ -30,7 +30,7 @@ public class BoardController {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping(value = "/posts")
-    public void postPost(@Validated HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void postPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletInputStream inputStream = request.getInputStream();
         String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
         Post post = objectMapper.readValue(messageBody, Post.class);
@@ -67,7 +67,7 @@ public class BoardController {
 
     /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
     @PatchMapping(value = "/posts/{postId}")
-    public ResponseEntity<SuccessResponse> patchPost(@RequestBody Post update, @PathVariable("postId") Long postId) { //@Requestbody를 생략하면, @ModelAttribute가 붙음
+    public ResponseEntity<SuccessResponse> patchPost(@Validated @RequestBody Post update, @PathVariable("postId") Long postId) { //@Requestbody를 생략하면, @ModelAttribute가 붙음
         this.postsRepository.update(postId, update);
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("edited post");
