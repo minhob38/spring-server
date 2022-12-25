@@ -15,6 +15,6 @@ public class Post {
 //    @NotEmpty(message = "title is required - '':(X) / ' ':(O) / null:(X)")
     String title;
 
-//    @NotNull(message = "content is required - '':(O) / ' ':(O) / null:(X)")
+    @NotNull(message = "content is required - '':(O) / ' ':(O) / null:(X)")
     String content;
 }
