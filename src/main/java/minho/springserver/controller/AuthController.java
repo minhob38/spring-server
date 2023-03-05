@@ -1,9 +1,12 @@
 package minho.springserver.controller;
 
+import minho.springserver.application.auth.AuthApplication;
 import minho.springserver.domain.auth.AuthCommand;
+import minho.springserver.domain.auth.AuthInfo;
 import minho.springserver.dto.*;
 import minho.springserver.entity.Users;
 import minho.springserver.exception.AuthException;
+import minho.springserver.infrastructure.auth.UsersRepository;
 import minho.springserver.service.AuthService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,14 +56,16 @@ import java.util.*;
 @RestController
 public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
-    private final minho.springserver.domain.auth.AuthService.UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
     private final AuthService authService;
+    private final AuthApplication authApplication;
 
     @Autowired
     /* 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다. */
-    public AuthController(minho.springserver.domain.auth.AuthService.UsersRepository usersRepository, AuthService authService) {
+    public AuthController(UsersRepository usersRepository, AuthService authService, AuthApplication authApplication) {
         this.usersRepository = usersRepository;
         this.authService = authService;
+        this.authApplication = authApplication
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -82,15 +87,7 @@ public class AuthController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         AuthCommand.SignUpCommand command = new AuthCommand.SignUpCommand(email, password);
-
-        Optional<Users> user = this.usersRepository.findByEmail(email);
-
-        if (user.isPresent()) {
-            throw new AuthException("user already exists");
-        }
-
-        String hash = this.authService.createHash(password);
-        this.usersRepository.save(email, hash);
+        AuthInfo.SignupInfo user = this.authApplication.signUp(email,password);
 
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed up");

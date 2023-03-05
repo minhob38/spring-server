@@ -2,14 +2,13 @@ package minho.springserver.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
 import minho.springserver.domain.auth.AuthRead;
-import minho.springserver.domain.auth.AuthService;
 import minho.springserver.entity.Users;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
 public class AuthReadImpl implements AuthRead {
-    private final AuthService.UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     public Optional<Users> findUserByEmail(String email) {

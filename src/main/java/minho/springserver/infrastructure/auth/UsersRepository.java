@@ -1,4 +1,4 @@
-package minho.springserver.dao;
+package minho.springserver.infrastructure.auth;
 
 import minho.springserver.entity.Users;
 import org.springframework.stereotype.Repository;
