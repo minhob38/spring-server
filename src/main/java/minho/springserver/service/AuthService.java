@@ -1,18 +1,14 @@
 package minho.springserver.service;
 
-import minho.springserver.dao.UsersRepository;
-import minho.springserver.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class AuthService {
-    private final UsersRepository usersRepository;
+    private final minho.springserver.domain.auth.AuthService.UsersRepository usersRepository;
 
     @Autowired
-    public AuthService(UsersRepository usersRepository) {
+    public AuthService(minho.springserver.domain.auth.AuthService.UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 

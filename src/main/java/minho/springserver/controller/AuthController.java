@@ -1,6 +1,6 @@
 package minho.springserver.controller;
 
-import minho.springserver.dao.UsersRepository;
+import minho.springserver.domain.auth.AuthCommand;
 import minho.springserver.dto.*;
 import minho.springserver.entity.Users;
 import minho.springserver.exception.AuthException;
@@ -53,12 +53,12 @@ import java.util.*;
 @RestController
 public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
-    private final UsersRepository usersRepository;
+    private final minho.springserver.domain.auth.AuthService.UsersRepository usersRepository;
     private final AuthService authService;
 
     @Autowired
     /* 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다. */
-    public AuthController(UsersRepository usersRepository, AuthService authService) {
+    public AuthController(minho.springserver.domain.auth.AuthService.UsersRepository usersRepository, AuthService authService) {
         this.usersRepository = usersRepository;
         this.authService = authService;
     }
@@ -81,6 +81,7 @@ public class AuthController {
         log.info("info api log={}", "/api/auth/signup");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        AuthCommand.SignUpCommand command = new AuthCommand.SignUpCommand(email, password);
 
         Optional<Users> user = this.usersRepository.findByEmail(email);
 
