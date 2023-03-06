@@ -87,7 +87,7 @@ public class AuthController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         AuthCommand.SignUpCommand command = new AuthCommand.SignUpCommand(email, password);
-        AuthInfo.SignupInfo user = this.authApplication.signUp(email,password);
+        AuthInfo.SignupInfo userId = this.authApplication.signUp(email,password);
 
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed up");

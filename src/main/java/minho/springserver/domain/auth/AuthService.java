@@ -12,17 +12,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService {
     private final AuthRead authRead;
+    private final AuthCreate authCreate;
 
-    public AuthInfo.SignupInfo signUp(String email, String password) {
+    public AuthInfo.SignupInfo signUp(String email, String password) throws AuthException {
         Optional<Users> user = this.authRead.findUserByEmail(email);
 
-//        if (user.isPresent()) {
-//            throw new AuthException("user already exists");
-//        }
+        if (user.isPresent()) {
+            throw new AuthException("user already exists");
+        }
 
-        String hash = this.authService.createHash(password);
-        this.usersRepository.save(email, hash);
+        String hash = this.authCreate.createHash(password);
+        this.authCreate.saveUser(email, hash);
     }
-
-
 }

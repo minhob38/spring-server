@@ -6,6 +6,6 @@ public class AuthInfo {
 
     @RequiredArgsConstructor
     public static class SignupInfo {
-        private final String accessToken;
+        private final Long userId;
     }
 }
