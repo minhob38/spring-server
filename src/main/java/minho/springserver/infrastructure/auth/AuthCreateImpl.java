@@ -2,11 +2,9 @@ package minho.springserver.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
 import minho.springserver.domain.auth.AuthCreate;
-import minho.springserver.domain.auth.AuthRead;
-import minho.springserver.entity.Users;
+import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
+@Component
 @RequiredArgsConstructor
 public class AuthCreateImpl implements AuthCreate {
     private final UsersRepository usersRepository;

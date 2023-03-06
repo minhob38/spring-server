@@ -14,7 +14,9 @@ public class AuthService {
     private final AuthRead authRead;
     private final AuthCreate authCreate;
 
-    public AuthInfo.SignupInfo signUp(String email, String password) throws AuthException {
+    public AuthInfo.SignupInfo signUp(AuthCommand.SignUpCommand command) throws AuthException {
+        String email = command.getEmail();
+        String password = command.getPassword();
         Optional<Users> user = this.authRead.findUserByEmail(email);
 
         if (user.isPresent()) {
@@ -22,6 +24,8 @@ public class AuthService {
         }
 
         String hash = this.authCreate.createHash(password);
-        this.authCreate.saveUser(email, hash);
+        Long userId = this.authCreate.saveUser(email, hash);
+
+        return new AuthInfo.SignupInfo(userId);
     }
 }

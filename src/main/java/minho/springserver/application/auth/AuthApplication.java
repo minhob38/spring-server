@@ -1,10 +1,18 @@
 package minho.springserver.application.auth;
 
+import lombok.RequiredArgsConstructor;
+import minho.springserver.domain.auth.AuthCommand;
 import minho.springserver.domain.auth.AuthInfo;
+import minho.springserver.domain.auth.AuthService;
+import minho.springserver.exception.AuthException;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class AuthApplication {
-    public AuthInfo.SignupInfo signUp(String email, String password) {
-        // service
-        return new AuthInfo.SignupInfo("token");
+    private final AuthService authService;
+    public AuthInfo.SignupInfo signUp(AuthCommand.SignUpCommand command) throws AuthException {
+        AuthInfo.SignupInfo info = this.authService.signUp(command);
+        return info;
     }
 }
