@@ -73,23 +73,6 @@ public class AuthController {
         return errorResponse;
     }
 
-    /* api
-    https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestmapping
-    https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-methods
-    */
-    @RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
-    public ResponseEntity<?> postSignUp(HttpServletRequest request, HttpServletResponse response) throws AuthException {
-        log.info("info api log={}", "/api/auth/signup");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        AuthCommand.SignUpCommand command = new AuthCommand.SignUpCommand(email, password);
-        AuthInfo.SignupInfo userId = this.authApplication.signUp(command);
-
-        SuccessResponse successResponse = new SuccessResponse();
-        successResponse.setMessage("user signed up");
-        successResponse.setData("token");
-        return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
-    }
 
 //    @PostMapping(value = "/api/auth/signin")
 //    public ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) throws AuthException {
