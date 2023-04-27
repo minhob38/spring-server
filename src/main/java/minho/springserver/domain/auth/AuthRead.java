@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface AuthRead {
     Optional<Users> findUserByEmail(String email);
+
+    boolean checkIsMatchPassword(String password, String hash);
 }

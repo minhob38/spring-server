@@ -11,8 +11,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AuthApplication {
     private final AuthService authService;
-    public AuthInfo.SignupInfo signUp(AuthCommand.SignUpCommand command) throws AuthException {
-        AuthInfo.SignupInfo info = this.authService.signUp(command);
-        return info;
+    public AuthInfo.SignupInfo signup(AuthCommand.SignupCommand command) throws AuthException {
+        AuthInfo.SignupInfo signupInfo = this.authService.signup(command);
+        return signupInfo;
+    }
+
+    public AuthInfo.SigninInfo signin(AuthCommand.SigninCommand command) throws AuthException {
+        AuthInfo.SigninInfo signinInfo = this.authService.signin(command);
+        return signinInfo;
     }
 }

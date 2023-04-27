@@ -7,8 +7,17 @@ public class AuthCommand {
 
     @Getter
     @RequiredArgsConstructor
-    public static class SignUpCommand {
+    public static class SignupCommand {
+        private final String email;
+        private final String password;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class SigninCommand {
         private final String email;
         private final String password;
     }
 }
+
+

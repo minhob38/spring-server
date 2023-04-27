@@ -14,7 +14,7 @@ public class AuthService {
     private final AuthRead authRead;
     private final AuthCreate authCreate;
 
-    public AuthInfo.SignupInfo signUp(AuthCommand.SignUpCommand command) throws AuthException {
+    public AuthInfo.SignupInfo signup(AuthCommand.SignupCommand command) throws AuthException {
         String email = command.getEmail();
         String password = command.getPassword();
         Optional<Users> user = this.authRead.findUserByEmail(email);
@@ -27,5 +27,26 @@ public class AuthService {
         Long userId = this.authCreate.saveUser(email, hash);
 
         return new AuthInfo.SignupInfo(userId);
+    }
+
+    public AuthInfo.SigninInfo signin(AuthCommand.SigninCommand command) throws AuthException {
+        String email = command.getEmail();
+        String password = command.getPassword();
+        Optional<Users> user = this.authRead.findUserByEmail(email);
+
+        if (!user.isPresent()) {
+            throw new AuthException("user does not exists");
+        }
+
+        String hash = user.get().getPassword();
+        boolean isMatchPassword = this.authRead.checkIsMatchPassword(password, hash);
+
+        if (!isMatchPassword) {
+            throw new AuthException("password is invalid");
+        }
+
+        Long userId = user.get().getId();
+
+        return new AuthInfo.SigninInfo(userId);
     }
 }

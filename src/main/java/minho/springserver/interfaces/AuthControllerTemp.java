@@ -3,6 +3,7 @@ package minho.springserver.interfaces;
 import minho.springserver.application.auth.AuthApplication;
 import minho.springserver.domain.auth.AuthCommand;
 import minho.springserver.domain.auth.AuthInfo;
+import minho.springserver.domain.auth.SessionUser;
 import minho.springserver.dto.*;
 import minho.springserver.exception.AuthException;
 import minho.springserver.infrastructure.auth.UsersRepository;
@@ -51,13 +52,11 @@ import javax.transaction.Transactional;
 @RestController
 public class AuthControllerTemp {
     private final Logger log = LoggerFactory.getLogger((getClass()));
-    private final UsersRepository usersRepository;
     private final AuthApplication authApplication;
 
     @Autowired
     /* 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다. */
     public AuthControllerTemp(UsersRepository usersRepository, AuthApplication authApplication) {
-        this.usersRepository = usersRepository;
         this.authApplication = authApplication;
     }
 
@@ -79,13 +78,36 @@ public class AuthControllerTemp {
         log.info("info api log={}", "/api/auth/signup");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        AuthCommand.SignUpCommand command = new AuthCommand.SignUpCommand(email, password);
-        AuthInfo.SignupInfo userId = this.authApplication.signUp(command);
 
+        // command 생성
+        AuthCommand.SignupCommand command = new AuthCommand.SignupCommand(email, password);
+
+        // interface -> application
+        AuthInfo.SignupInfo signupInfo = this.authApplication.signup(command);
+
+        // 응답 생성
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed up");
         successResponse.setData("token");
         return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/api/auth/signin")
+    public ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) throws AuthException {
+        AuthCommand.SigninCommand command = new AuthCommand.SigninCommand(email, password);
+
+        // interface -> application
+        AuthInfo.SigninInfo signinInfo = this.authApplication.signin(command);
+
+        // session 설정
+        SessionUser sessionUser = new SessionUser(signinInfo.getUserId());
+        HttpSession session = request.getSession(); // session을 찾아서 없으면, 새로 session을 만듬
+        session.setAttribute("auth-key", sessionUser); // session에 담을 정보(sessionUser)를 넣어줌
+
+        // 응답 생성
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("user signed in");
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
 

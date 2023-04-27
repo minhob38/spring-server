@@ -17,4 +17,9 @@ public class AuthReadImpl implements AuthRead {
         Optional<Users> user =  this.usersRepository.findByEmail(email);
         return user;
     }
+
+    public boolean checkIsMatchPassword(String password, String hash) {
+        if (password.equals(hash)) return true;
+        return false;
+    }
 }
