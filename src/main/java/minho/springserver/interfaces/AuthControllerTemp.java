@@ -10,6 +10,8 @@ import minho.springserver.infrastructure.auth.UsersRepository;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.*;
@@ -110,5 +112,18 @@ public class AuthControllerTemp {
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
+    /* BidingResult를 인자로 넘겨주면, controller가 실행됩니다. (@Validated가 있을때 BindingResult를 인자로 넘겨주지 않으면 controller에서 error를 처리할수 없습니다.) */
+    @PatchMapping(value = "/api/auth/password")
+    public SuccessResponse patchPassword(@Validated @ModelAttribute PatchPasswordForm patchPasswordForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            System.out.println((bindingResult.getAllErrors()));
+        }
+        String currentPassowrd = patchPasswordForm.getCurrentPassword();
+        String newPassword = patchPasswordForm.getNewPassword();
+        System.out.println("/api/auth/password");
+        SuccessResponse successResponse = new SuccessResponse();
+        return successResponse;
+    }
 
 }
