@@ -16,4 +16,10 @@ public class AuthInfo {
     public static class SigninInfo {
         private final Long userId;
     }
+
+    @RequiredArgsConstructor
+    @Getter
+    public static class UserInfo {
+        private final Long userId;
+    }
 }

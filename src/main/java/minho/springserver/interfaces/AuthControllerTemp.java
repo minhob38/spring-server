@@ -119,6 +119,11 @@ public class AuthControllerTemp {
         if (bindingResult.hasErrors()) {
             System.out.println((bindingResult.getAllErrors()));
         }
+
+        // interface -> application
+        this.authApplication
+
+
         String currentPassowrd = patchPasswordForm.getCurrentPassword();
         String newPassword = patchPasswordForm.getNewPassword();
         System.out.println("/api/auth/password");

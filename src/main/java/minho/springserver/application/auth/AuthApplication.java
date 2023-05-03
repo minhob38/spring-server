@@ -20,4 +20,9 @@ public class AuthApplication {
         AuthInfo.SigninInfo signinInfo = this.authService.signin(command);
         return signinInfo;
     }
+
+    public AuthInfo.UserInfo updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
+        AuthInfo.UserInfo userInfo = this.authService.signin(command);
+        return userInfo;
+    }
 }

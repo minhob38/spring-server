@@ -18,6 +18,15 @@ public class AuthCommand {
         private final String email;
         private final String password;
     }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdatePasswordCommand {
+        private final String email;
+        private final String newPassword;
+        private final String currentPassword;
+    }
+
 }
 
 
