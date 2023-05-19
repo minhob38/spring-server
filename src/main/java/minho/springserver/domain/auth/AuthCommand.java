@@ -22,7 +22,7 @@ public class AuthCommand {
     @Getter
     @RequiredArgsConstructor
     public static class UpdatePasswordCommand {
-        private final String email;
+        private final Long userId;
         private final String newPassword;
         private final String currentPassword;
     }

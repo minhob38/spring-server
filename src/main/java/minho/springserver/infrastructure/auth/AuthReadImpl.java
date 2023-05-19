@@ -18,6 +18,13 @@ public class AuthReadImpl implements AuthRead {
         return user;
     }
 
+    @Override
+    public Optional<Users> findUserById(Long userId) {
+        Optional<Users> user =  this.usersRepository.findById(userId);
+        return user;
+    }
+
+    @Override
     public boolean checkIsMatchPassword(String password, String hash) {
         if (password.equals(hash)) return true;
         return false;

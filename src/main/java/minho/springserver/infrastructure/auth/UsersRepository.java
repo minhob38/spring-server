@@ -24,11 +24,16 @@ public class UsersRepository {
         return result;
     }
 
+    public Optional<Users> findById(Long id) {
+        Users user = this.em.find(Users.class, id); // <- 조회하지 못하면 null을 반환합니다.
+        return Optional.ofNullable(user);
+    }
+
     public Optional<Users> findByEmail(String email) {
         try {
             Users user = this.em.createQuery("select u from Users u where u.email = :email", Users.class)
                 .setParameter("email", email)
-                .getSingleResult();
+                .getSingleResult(); // <- 조회하지 못하면 NoResultException을 생성합니다.
             /* class toString method는 인스턴스의 해시주소를 hex형태로 반환합니다. */
             System.out.println(Integer.toHexString(user.hashCode()));
             System.out.println(user);
@@ -39,18 +44,20 @@ public class UsersRepository {
         }
     }
 
-    public Long save(String email, String hash) {
+    public Long create(String email, String hash) {
         Users user = new Users();
         user.setEmail(email);
         user.setPassword(hash);
         /* Date -> ZonedLocalDate로 바꾸기 */
         user.setCreatedAt(new Date());
         this.em.persist(user);
-        return user.getId();
+        return user.getId(); // 식별자 설정보기
     }
 
-    public Users findById(Long id) {
-        Users result = this.em.find(Users.class, id);
-        return result;
+    public void updatePassword(Long id, String hash) {
+        Users user = this.em.find(Users.class, id); // <- 조회하지 못하면 null을 반환합니다.
+        user.setPassword(hash);
+        user.setUpdatedAt(new Date());
+        this.em.persist(user);
     }
 }

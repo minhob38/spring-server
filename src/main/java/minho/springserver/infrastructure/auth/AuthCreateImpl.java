@@ -11,12 +11,17 @@ public class AuthCreateImpl implements AuthCreate {
 
     @Override
     public String createHash(String password) {
-        return "hash" + password;
+        return password;
     }
 
     @Override
     public Long saveUser(String email, String password) {
-        Long id = this.usersRepository.save(email, password);
+        Long id = this.usersRepository.create(email, password);
         return id;
+    }
+
+    @Override
+    public void updatePassword(Long userId, String hash) {
+        this.usersRepository.updatePassword(userId, hash);
     }
 }

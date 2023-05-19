@@ -103,7 +103,7 @@ public class AuthControllerTemp {
 
         // session 설정
         SessionUser sessionUser = new SessionUser(signinInfo.getUserId());
-        HttpSession session = request.getSession(); // session을 찾아서 없으면, 새로 session을 만듬
+        HttpSession session = request.getSession(true); // session을 찾아서 없으면, 새로 session을 만듬
         session.setAttribute("auth-key", sessionUser); // session에 담을 정보(sessionUser)를 넣어줌
 
         // 응답 생성
@@ -114,19 +114,28 @@ public class AuthControllerTemp {
 
     /* BidingResult를 인자로 넘겨주면, controller가 실행됩니다. (@Validated가 있을때 BindingResult를 인자로 넘겨주지 않으면 controller에서 error를 처리할수 없습니다.) */
     @PatchMapping(value = "/api/auth/password")
-    public SuccessResponse patchPassword(@Validated @ModelAttribute PatchPasswordForm patchPasswordForm, BindingResult bindingResult) {
+    public SuccessResponse patchPassword(HttpServletRequest request, @Validated @ModelAttribute PatchPasswordForm patchPasswordForm, BindingResult bindingResult) throws AuthException {
 
         if (bindingResult.hasErrors()) {
             System.out.println((bindingResult.getAllErrors()));
         }
 
-        // interface -> application
-        this.authApplication
+        HttpSession session = request.getSession(false);
 
+        SessionUser sessionUser = (SessionUser) session.getAttribute("auth-key");
+        Long userId = sessionUser.getUserId();
 
-        String currentPassowrd = patchPasswordForm.getCurrentPassword();
+        String currentPassword =  patchPasswordForm.getCurrentPassword();
         String newPassword = patchPasswordForm.getNewPassword();
-        System.out.println("/api/auth/password");
+
+        AuthCommand.UpdatePasswordCommand command = new AuthCommand.UpdatePasswordCommand(userId, newPassword, currentPassword);
+        // interface -> application
+        this.authApplication.updatePassword(command);
+
+
+//        String currentPassword = patchPasswordForm.getCurrentPassword();
+//        String newPassword = patchPasswordForm.getNewPassword();
+//        System.out.println("/api/auth/password");
         SuccessResponse successResponse = new SuccessResponse();
         return successResponse;
     }

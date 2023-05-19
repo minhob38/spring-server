@@ -21,8 +21,7 @@ public class AuthApplication {
         return signinInfo;
     }
 
-    public AuthInfo.UserInfo updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
-        AuthInfo.UserInfo userInfo = this.authService.signin(command);
-        return userInfo;
+    public void  updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
+        this.authService.updatePassword(command);
     }
 }

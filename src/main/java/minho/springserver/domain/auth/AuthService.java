@@ -49,4 +49,33 @@ public class AuthService {
 
         return new AuthInfo.SigninInfo(userId);
     }
+
+    public void updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
+        Long userId = command.getUserId();
+        String currentPassword = command.getCurrentPassword();
+        String newPassword = command.getNewPassword();
+
+        Optional<Users> user = this.authRead.findUserById(userId);
+
+        System.out.println(user);
+
+        if (newPassword.equals((currentPassword))) {
+            throw new AuthException("new password should be different with current password");
+        }
+
+        if (!user.isPresent()) {
+            throw new AuthException("user does not exists");
+        }
+
+        String currentHash = user.get().getPassword();
+        boolean isMatchPassword = this.authRead.checkIsMatchPassword(currentPassword, currentHash);
+
+        if (!isMatchPassword) {
+            throw new AuthException("password is invalid");
+        }
+
+        String newHash = this.authCreate.createHash(newPassword);
+
+        this.authCreate.updatePassword(userId, newHash);
+    }
 }
