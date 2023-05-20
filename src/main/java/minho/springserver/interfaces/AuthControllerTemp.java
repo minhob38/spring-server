@@ -139,9 +139,11 @@ public class AuthControllerTemp {
     @PostMapping(value = "/api/auth/logout")
     public String postLogout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
+
+        // session 지우기
         if (session != null) session.invalidate();
 
-        /* cookie 지우기 (path도 설정) */
+        // cookie 지우기 (path도 설정)
         Cookie cookie = new Cookie("JSESSIONID", null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
