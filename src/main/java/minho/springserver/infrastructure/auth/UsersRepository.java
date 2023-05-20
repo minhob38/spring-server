@@ -51,7 +51,7 @@ public class UsersRepository {
         /* Date -> ZonedLocalDate로 바꾸기 */
         user.setCreatedAt(new Date());
         this.em.persist(user);
-        return user.getId(); // 식별자 설정보기
+        return user.getId();
     }
 
     public void updatePassword(Long id, String hash) {

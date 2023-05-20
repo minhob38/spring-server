@@ -132,12 +132,21 @@ public class AuthControllerTemp {
         // interface -> application
         this.authApplication.updatePassword(command);
 
-
-//        String currentPassword = patchPasswordForm.getCurrentPassword();
-//        String newPassword = patchPasswordForm.getNewPassword();
-//        System.out.println("/api/auth/password");
         SuccessResponse successResponse = new SuccessResponse();
         return successResponse;
+    }
+
+    @PostMapping(value = "/api/auth/logout")
+    public String postLogout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) session.invalidate();
+
+        /* cookie 지우기 (path도 설정) */
+        Cookie cookie = new Cookie("JSESSIONID", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "user logged out" ;
     }
 
 }
