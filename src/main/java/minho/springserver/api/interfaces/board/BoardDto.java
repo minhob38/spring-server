@@ -7,13 +7,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class BoardDto {
     static class CreatePost {
          @Getter
          @ToString
          static class RequestBody {
+             @NotBlank(message = "author is required - '':(X) / ' ':(X) / null:(X)")
              String author;
+
+             @NotEmpty(message = "title is required - '':(X) / ' ':(O) / null:(X)")
              String title;
+
+             @NotNull(message = "content is required - '':(O) / ' ':(O) / null:(X)")
              String content;
 
              @JsonCreator // jackson에서 json -> inner static class로 바꾸기 위해 필요한 설정입니다.

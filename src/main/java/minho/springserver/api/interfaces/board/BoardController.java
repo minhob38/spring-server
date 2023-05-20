@@ -1,6 +1,7 @@
 package minho.springserver.api.interfaces.board;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import minho.springserver.api.application.board.BoardApplication;
@@ -19,10 +20,15 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Validated // @RequestParam, @PathVariable 유효성검증을 위해 붙여야 합니다.
@@ -33,6 +39,8 @@ import java.util.List;
 public class BoardController {
     private final BoardApplication boardApplication;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
 
     @PostMapping(value = "/posts")
     public void postPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -40,6 +48,15 @@ public class BoardController {
         ServletInputStream inputStream = request.getInputStream();
         String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
         BoardDto.CreatePost.RequestBody requestBody = objectMapper.readValue(messageBody, BoardDto.CreatePost.RequestBody.class); // json -> object
+
+        // request body 유효성 check
+        Set<ConstraintViolation<BoardDto.CreatePost.RequestBody>> violations = validator.validate(requestBody);
+        System.out.println(violations.size());
+        for (ConstraintViolation<BoardDto.CreatePost.RequestBody> violation : violations) {
+            System.out.println("violation=" + violation);
+            System.out.println("violation.message=" + violation.getMessage());]
+            throw new Error(violation.getMessage()); // TODO: BadRequestException 만들기
+        }
 
         // command 만들기
         String author = requestBody.getAuthor();
