@@ -21,6 +21,15 @@ public class Advice {
         errorResponse.setMessage(e.getMessage());
         return errorResponse;
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AuthException.class)
+    public ErrorResponse authExceptionHandler(AuthException e) {
+        System.out.println("controller advice");
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(e.getMessage());
+        return errorResponse;
+    }
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardException.class)

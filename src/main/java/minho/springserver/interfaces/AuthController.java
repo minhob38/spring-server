@@ -52,19 +52,20 @@ import javax.transaction.Transactional;
 */
 @Transactional
 @RestController
-public class AuthControllerTemp {
+public class AuthController {
     private final Logger log = LoggerFactory.getLogger((getClass()));
     private final AuthApplication authApplication;
 
     @Autowired
-    /* 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다. */
-    public AuthControllerTemp(UsersRepository usersRepository, AuthApplication authApplication) {
+    // 아래 생성자는 lombok의 @RequiredArgsConstructor로 생략가능합니다.
+    public AuthController(AuthApplication authApplication) {
         this.authApplication = authApplication;
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({AuthException.class})
     public ErrorResponse authExceptionHandler(AuthException e) {
+        // 같은 exception에 대해 exception handler와 advice가 있으면, exception handler가 실행됩니다.
         System.out.println("auth exception handler");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());
@@ -129,6 +130,7 @@ public class AuthControllerTemp {
         String newPassword = patchPasswordForm.getNewPassword();
 
         AuthCommand.UpdatePasswordCommand command = new AuthCommand.UpdatePasswordCommand(userId, newPassword, currentPassword);
+
         // interface -> application
         this.authApplication.updatePassword(command);
 
@@ -140,6 +142,8 @@ public class AuthControllerTemp {
     public ResponseEntity<?> getMe(@SessionAttribute(name = "auth-key", required = false) SessionUser user) throws AuthException {
         Long userId = user.getUserId();
         AuthCommand.ReadMeCommand command = new AuthCommand.ReadMeCommand(userId);
+
+        // interface -> application
         AuthInfo.UserInfo userInfo = this.authApplication.findMe(command);
 
         SuccessResponse successResponse = new SuccessResponse();
@@ -169,6 +173,8 @@ public class AuthControllerTemp {
     public String deleteSignOut(@SessionAttribute(name = "auth-key", required = false) SessionUser user) throws AuthException {
         Long userId = user.getUserId();
         AuthCommand.SignoutCommand command = new AuthCommand.SignoutCommand(userId);
+
+        // interface -> application
         this.authApplication.signout(command);
 
         return "user signed out" ;
