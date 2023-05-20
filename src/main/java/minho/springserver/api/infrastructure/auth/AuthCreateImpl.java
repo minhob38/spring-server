@@ -1,7 +1,7 @@
-package minho.springserver.infrastructure.auth;
+package minho.springserver.api.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
-import minho.springserver.domain.auth.AuthCreate;
+import minho.springserver.api.domain.auth.AuthCreate;
 import org.springframework.stereotype.Component;
 
 @Component

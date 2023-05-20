@@ -1,9 +1,9 @@
-package minho.springserver.application.auth;
+package minho.springserver.api.application.auth;
 
 import lombok.RequiredArgsConstructor;
-import minho.springserver.domain.auth.AuthCommand;
-import minho.springserver.domain.auth.AuthInfo;
-import minho.springserver.domain.auth.AuthService;
+import minho.springserver.api.domain.auth.AuthCommand;
+import minho.springserver.api.domain.auth.AuthInfo;
+import minho.springserver.api.domain.auth.AuthService;
 import minho.springserver.exception.AuthException;
 import org.springframework.stereotype.Component;
 

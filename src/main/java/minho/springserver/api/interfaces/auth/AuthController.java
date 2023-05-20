@@ -1,12 +1,11 @@
-package minho.springserver.interfaces;
+package minho.springserver.api.interfaces.auth;
 
-import minho.springserver.application.auth.AuthApplication;
-import minho.springserver.domain.auth.AuthCommand;
-import minho.springserver.domain.auth.AuthInfo;
-import minho.springserver.domain.auth.SessionUser;
+import minho.springserver.api.application.auth.AuthApplication;
+import minho.springserver.api.domain.auth.AuthCommand;
+import minho.springserver.api.domain.auth.AuthInfo;
+import minho.springserver.api.domain.auth.SessionUser;
 import minho.springserver.dto.*;
 import minho.springserver.exception.AuthException;
-import minho.springserver.infrastructure.auth.UsersRepository;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -63,7 +62,7 @@ public class AuthController {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({AuthException.class})
+    @ExceptionHandler({AuthException.class}) // <- 별도 설정없이, @ExceptionHandler를 붙이면 됩니다.
     public ErrorResponse authExceptionHandler(AuthException e) {
         // 같은 exception에 대해 exception handler와 advice가 있으면, exception handler가 실행됩니다.
         System.out.println("auth exception handler");
@@ -97,6 +96,7 @@ public class AuthController {
 
     @PostMapping(value = "/api/auth/signin")
     public ResponseEntity<?> postSignIn(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) throws AuthException {
+        // command 생성
         AuthCommand.SigninCommand command = new AuthCommand.SigninCommand(email, password);
 
         // interface -> application
@@ -121,19 +121,21 @@ public class AuthController {
             System.out.println((bindingResult.getAllErrors()));
         }
 
+        // session parsing
         HttpSession session = request.getSession(false);
-
         SessionUser sessionUser = (SessionUser) session.getAttribute("auth-key");
         Long userId = sessionUser.getUserId();
 
         String currentPassword =  patchPasswordForm.getCurrentPassword();
         String newPassword = patchPasswordForm.getNewPassword();
 
+        // command 생성
         AuthCommand.UpdatePasswordCommand command = new AuthCommand.UpdatePasswordCommand(userId, newPassword, currentPassword);
 
         // interface -> application
         this.authApplication.updatePassword(command);
 
+        // 응답 생성
         SuccessResponse successResponse = new SuccessResponse();
         return successResponse;
     }
@@ -141,15 +143,17 @@ public class AuthController {
     @GetMapping(value = "/api/auth/me")
     public ResponseEntity<?> getMe(@SessionAttribute(name = "auth-key", required = false) SessionUser user) throws AuthException {
         Long userId = user.getUserId();
+
+        // command 생성
         AuthCommand.ReadMeCommand command = new AuthCommand.ReadMeCommand(userId);
 
         // interface -> application
         AuthInfo.UserInfo userInfo = this.authApplication.findMe(command);
 
+        // 응답 생성
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("my information");
         successResponse.setData(userInfo);
-
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
@@ -166,17 +170,21 @@ public class AuthController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
+        // 응답 생성
         return "user logged out" ;
     }
 
     @DeleteMapping(value = "/api/auth/signout")
     public String deleteSignOut(@SessionAttribute(name = "auth-key", required = false) SessionUser user) throws AuthException {
         Long userId = user.getUserId();
+
+        // command 생성
         AuthCommand.SignoutCommand command = new AuthCommand.SignoutCommand(userId);
 
         // interface -> application
         this.authApplication.signout(command);
 
+        // 응답 생성
         return "user signed out" ;
     }
 }

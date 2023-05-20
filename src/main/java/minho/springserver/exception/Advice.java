@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
 
-@RestControllerAdvice
+@RestControllerAdvice // <- 별도 설정없이, @RestControllerAdvice를 붙이면 됩니다.
 public class Advice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

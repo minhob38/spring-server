@@ -1,4 +1,4 @@
-package minho.springserver.domain.auth;
+package minho.springserver.api.domain.auth;
 
 public interface AuthCreate {
     String createHash(String password);
