@@ -1,4 +1,4 @@
-package minho.springserver.controller;
+package minho.springserver.api.interfaces.home;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -27,4 +27,8 @@ public class HomeController extends HttpServlet {
                 res.getWriter().write("api server : )");
         }
     }
+
+    // cookie api 만들기
+
+    // log api 만들기
 }

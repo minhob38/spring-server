@@ -1,4 +1,4 @@
-package minho.springserver.controller;
+package minho.springserver.api.interfaces.board;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

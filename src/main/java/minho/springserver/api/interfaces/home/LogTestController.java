@@ -1,4 +1,4 @@
-package minho.springserver.controller;
+package minho.springserver.api.interfaces.home;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
