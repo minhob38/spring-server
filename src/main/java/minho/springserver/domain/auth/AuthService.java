@@ -90,4 +90,16 @@ public class AuthService {
 
         return new AuthInfo.UserInfo(userId, userEmail);
     }
+
+    public void signout(AuthCommand.SignoutCommand command) throws AuthException {
+        Long userId = command.getUserId();
+
+        Optional<Users> user = this.authRead.findUserById(userId);
+
+        if (!user.isPresent()) {
+            throw new AuthException("user does not exists");
+        }
+
+        this.authCreate.deleteUser(userId);
+    }
 }

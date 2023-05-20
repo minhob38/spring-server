@@ -32,6 +32,12 @@ public class AuthCommand {
     public static class ReadMeCommand {
         private final Long userId;
     }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class SignoutCommand {
+        private final Long userId;
+    }
 }
 
 

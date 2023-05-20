@@ -164,4 +164,13 @@ public class AuthControllerTemp {
 
         return "user logged out" ;
     }
+
+    @DeleteMapping(value = "/api/auth/signout")
+    public String deleteSignOut(@SessionAttribute(name = "auth-key", required = false) SessionUser user) throws AuthException {
+        Long userId = user.getUserId();
+        AuthCommand.SignoutCommand command = new AuthCommand.SignoutCommand(userId);
+        this.authApplication.signout(command);
+
+        return "user signed out" ;
+    }
 }

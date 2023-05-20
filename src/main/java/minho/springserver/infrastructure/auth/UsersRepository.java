@@ -12,12 +12,9 @@ import java.util.Optional;
 @Repository
 public class UsersRepository {
     private final EntityManager em;
-
-
     public UsersRepository(EntityManager em) {
         this.em = em;
     }
-
 
     public List<Users> findAll() {
         List<Users> result = this.em.createQuery("select u from Users u", Users.class).getResultList();
@@ -54,10 +51,17 @@ public class UsersRepository {
         return user.getId();
     }
 
-    public void updatePassword(Long id, String hash) {
+    public Long updatePassword(Long id, String hash) {
         Users user = this.em.find(Users.class, id); // <- 조회하지 못하면 null을 반환합니다.
         user.setPassword(hash);
         user.setUpdatedAt(new Date());
-        this.em.persist(user);
+//        this.em.persist(user);
+        return user.getId();
+    }
+
+    public Long delete(Long id) {
+        Users user = this.em.find(Users.class, id); // <- 조회하지 못하면 null을 반환합니다.
+        this.em.remove(user);
+        return user.getId();
     }
 }

@@ -72,17 +72,4 @@ public class AuthController {
         errorResponse.setMessage(e.getMessage());
         return errorResponse;
     }
-
-
-
-
-
-
-//
-//    @DeleteMapping(value = "/api/auth/signout")
-//    public String deleteSignOut() {
-//        String name = "Spring";
-//        log.info("info log={}", name);
-//        return "ok" ;
-//    }
 }

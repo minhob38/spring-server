@@ -21,12 +21,16 @@ public class AuthApplication {
         return signinInfo;
     }
 
-    public void  updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
+    public void updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
         this.authService.updatePassword(command);
     }
 
     public AuthInfo.UserInfo findMe(AuthCommand.ReadMeCommand command) throws AuthException {
         AuthInfo.UserInfo userInfo =  this.authService.findMe(command);
         return userInfo;
+    }
+
+    public void signout(AuthCommand.SignoutCommand command) throws AuthException {
+        this.authService.signout(command);
     }
 }

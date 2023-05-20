@@ -5,5 +5,7 @@ public interface AuthCreate {
 
     Long saveUser(String email, String password);
 
-    void updatePassword(Long userId, String hash);
+    Long updatePassword(Long userId, String hash);
+
+    Long deleteUser(Long userId);
 }

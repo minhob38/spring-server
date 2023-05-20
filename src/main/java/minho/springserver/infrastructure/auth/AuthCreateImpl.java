@@ -16,12 +16,19 @@ public class AuthCreateImpl implements AuthCreate {
 
     @Override
     public Long saveUser(String email, String password) {
-        Long id = this.usersRepository.create(email, password);
-        return id;
+        Long updatedId = this.usersRepository.create(email, password);
+        return updatedId;
     }
 
     @Override
-    public void updatePassword(Long userId, String hash) {
-        this.usersRepository.updatePassword(userId, hash);
+    public Long updatePassword(Long userId, String hash) {
+        Long updatedId = this.usersRepository.updatePassword(userId, hash);
+        return updatedId;
+    }
+
+    @Override
+    public Long deleteUser(Long userId) {
+        Long deletedId = this.usersRepository.delete(userId);
+        return deletedId;
     }
 }
