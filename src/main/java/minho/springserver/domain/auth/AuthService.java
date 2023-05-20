@@ -57,8 +57,6 @@ public class AuthService {
 
         Optional<Users> user = this.authRead.findUserById(userId);
 
-        System.out.println(user);
-
         if (newPassword.equals((currentPassword))) {
             throw new AuthException("new password should be different with current password");
         }
@@ -77,5 +75,19 @@ public class AuthService {
         String newHash = this.authCreate.createHash(newPassword);
 
         this.authCreate.updatePassword(userId, newHash);
+    }
+
+    public AuthInfo.UserInfo findMe(AuthCommand.ReadMeCommand command) throws AuthException {
+        Long userId = command.getUserId();
+
+        Optional<Users> user = this.authRead.findUserById(userId);
+
+        if (!user.isPresent()) {
+            throw new AuthException("user does not exists");
+        }
+
+        String userEmail = user.get().getEmail();
+
+        return new AuthInfo.UserInfo(userId, userEmail);
     }
 }

@@ -21,5 +21,6 @@ public class AuthInfo {
     @Getter
     public static class UserInfo {
         private final Long userId;
+        private final String email;
     }
 }

@@ -136,6 +136,19 @@ public class AuthControllerTemp {
         return successResponse;
     }
 
+    @GetMapping(value = "/api/auth/me")
+    public ResponseEntity<?> getMe(@SessionAttribute(name = "auth-key", required = false) SessionUser user) throws AuthException {
+        Long userId = user.getUserId();
+        AuthCommand.ReadMeCommand command = new AuthCommand.ReadMeCommand(userId);
+        AuthInfo.UserInfo userInfo = this.authApplication.findMe(command);
+
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("my information");
+        successResponse.setData(userInfo);
+
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/api/auth/logout")
     public String postLogout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
@@ -148,7 +161,7 @@ public class AuthControllerTemp {
         cookie.setMaxAge(0);
         cookie.setPath("/");
         response.addCookie(cookie);
+
         return "user logged out" ;
     }
-
 }

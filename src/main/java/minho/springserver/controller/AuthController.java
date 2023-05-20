@@ -76,27 +76,8 @@ public class AuthController {
 
 
 
-//    @PostMapping(value = "/api/auth/logout")
-//    public String postLogout(HttpServletRequest request, HttpServletResponse response) {
-//        HttpSession session = request.getSession(false);
-//        if (session != null) session.invalidate();
-//
-//        /* cookie 지우기 (path도 설정) */
-//        Cookie cookie = new Cookie("JSESSIONID", null);
-//        cookie.setMaxAge(0);
-//        cookie.setPath("/");
-//        response.addCookie(cookie);
-//        return "user logged out" ;
-//    }
-//
-//    @GetMapping(value = "/api/auth/me")
-//    public ResponseEntity<?> getMe(@SessionAttribute(name = "auth-key", required = false) Users user) {
-//        SuccessResponse successResponse = new SuccessResponse();
-//        successResponse.setMessage("my information");
-//        successResponse.setData(user);
-//
-//        return new ResponseEntity<>(successResponse, HttpStatus.OK);
-//    }
+
+
 //
 //    @DeleteMapping(value = "/api/auth/signout")
 //    public String deleteSignOut() {

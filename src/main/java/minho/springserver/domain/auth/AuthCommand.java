@@ -27,6 +27,11 @@ public class AuthCommand {
         private final String currentPassword;
     }
 
+    @Getter
+    @RequiredArgsConstructor
+    public static class ReadMeCommand {
+        private final Long userId;
+    }
 }
 
 
