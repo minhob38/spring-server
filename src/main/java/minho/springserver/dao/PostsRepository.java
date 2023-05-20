@@ -2,11 +2,9 @@ package minho.springserver.dao;
 
 import minho.springserver.dto.Post;
 import minho.springserver.entity.Posts;
-import minho.springserver.entity.Users;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +23,7 @@ public class PostsRepository {
       post.setTitle(title);
       post.setContent(content);
       post.setCreatedAt(new Date()); // TODO: entity default 정의
-      em.persist(post);
+      this.em.persist(post);
       return post.getId();
     }
 

@@ -16,8 +16,8 @@ public class AuthCreateImpl implements AuthCreate {
 
     @Override
     public Long saveUser(String email, String password) {
-        Long updatedId = this.usersRepository.create(email, password);
-        return updatedId;
+        Long insertedId = this.usersRepository.create(email, password);
+        return insertedId;
     }
 
     @Override

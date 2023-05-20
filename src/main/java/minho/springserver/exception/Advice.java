@@ -17,6 +17,7 @@ public class Advice {
     @ExceptionHandler(Exception.class)
     public ErrorResponse exceptionHandler(Exception e) {
         System.out.println("controller advice - Exception");
+        System.out.println(e);
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());
         return errorResponse;
@@ -25,7 +26,6 @@ public class Advice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthException.class)
     public ErrorResponse authExceptionHandler(AuthException e) {
-        System.out.println("controller advice");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());
         return errorResponse;
@@ -34,7 +34,6 @@ public class Advice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardException.class)
     public ErrorResponse boardExceptionHandler(BoardException e) {
-        System.out.println("controller advice");
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());
         return errorResponse;

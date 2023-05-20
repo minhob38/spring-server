@@ -28,7 +28,7 @@ import javax.transaction.Transactional;
 
 * body 요청
 - InputStream + ObjectMapper
-- @Requestbody
+- @RequestBody
  */
 
 /*
