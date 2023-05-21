@@ -1,4 +1,4 @@
-package minho.springserver.api.domain.board;
+package minho.springserver.api.domain.board.entity;
 
 import lombok.Data;
 

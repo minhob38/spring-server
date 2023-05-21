@@ -1,4 +1,4 @@
-package minho.springserver.api.domain.auth;
+package minho.springserver.api.domain.auth.entity;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -6,6 +6,7 @@ import minho.springserver.api.domain.auth.AuthInfo;
 import minho.springserver.api.domain.auth.SessionUser;
 import minho.springserver.dto.*;
 import minho.springserver.exception.AuthException;
+import minho.springserver.response.SuccessResponse;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;

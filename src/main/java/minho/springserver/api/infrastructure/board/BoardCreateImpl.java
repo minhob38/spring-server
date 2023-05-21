@@ -1,7 +1,6 @@
 package minho.springserver.api.infrastructure.board;
 
 import lombok.RequiredArgsConstructor;
-import minho.springserver.dao.PostsRepository;
 import org.springframework.stereotype.Component;
 
 @Component

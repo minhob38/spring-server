@@ -2,7 +2,7 @@ package minho.springserver.api.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.auth.AuthRead;
-import minho.springserver.api.domain.auth.Users;
+import minho.springserver.api.domain.auth.entity.Users;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

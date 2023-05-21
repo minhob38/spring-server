@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class BoardDto {
+    // POST-api/posts
     static class CreatePost {
          @Getter
          @ToString
@@ -42,21 +43,41 @@ public class BoardDto {
         }
     }
 
+    // GET-api/posts
+    static class ReadPosts {
+        @ToString
+        @Getter
+        static class Data {
+            private final Long postId;
+            private final String author;
+            private final String title;
+            private final String content;
+
+            Data(BoardInfo.PostInfo postInfo) {
+                this.postId = postInfo.getPostId();
+                this.author = postInfo.getAuthor();
+                this.title = postInfo.getTitle();
+                this.content = postInfo.getContent();
+            }
+        }
+    }
+
     // GET-api/posts/:postId
+    static class ReadPost {
+        @ToString
+        @Getter // <- getter가 없으면 serialization이 되지 않습니다.
+        static class Data {
+            private final Long postId;
+            private final String author;
+            private final String title;
+            private final String content;
 
-    @ToString
-    @Getter // <- getter가 없으면 serialization이 되지 않습니다.
-    static class ReadPostData {
-        private final Long postId;
-        private final String author;
-        private final String title;
-        private final String content;
-
-        ReadPostData(BoardInfo.PostInfo postInfo) {
-            this.postId = postInfo.getPostId();
-            this.author = postInfo.getAuthor();
-            this.title = postInfo.getTitle();
-            this.content = postInfo.getContent();
+            Data(BoardInfo.PostInfo postInfo) {
+                this.postId = postInfo.getPostId();
+                this.author = postInfo.getAuthor();
+                this.title = postInfo.getTitle();
+                this.content = postInfo.getContent();
+            }
         }
     }
 }

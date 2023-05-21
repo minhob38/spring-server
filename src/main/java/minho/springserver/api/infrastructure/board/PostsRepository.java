@@ -1,6 +1,6 @@
-package minho.springserver.dao;
+package minho.springserver.api.infrastructure.board;
 
-import minho.springserver.api.domain.board.Posts;
+import minho.springserver.api.domain.board.entity.Posts;
 import minho.springserver.dto.Post;
 import org.springframework.stereotype.Repository;
 

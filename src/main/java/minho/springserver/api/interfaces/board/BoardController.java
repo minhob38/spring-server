@@ -7,8 +7,7 @@ import minho.springserver.api.application.board.BoardApplication;
 import minho.springserver.api.domain.board.BoardCommand;
 import minho.springserver.api.domain.board.BoardInfo;
 import minho.springserver.api.domain.board.BoardQuery;
-import minho.springserver.dto.SuccessResponse;
-import minho.springserver.response.ApiResponse;
+import minho.springserver.response.SuccessResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
@@ -22,11 +21,11 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.constraints.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Validated // @RequestParam, @PathVariable 유효성검증을 위해 붙여야 합니다.
@@ -84,16 +83,19 @@ public class BoardController {
         // interface -> application
         List<BoardInfo.PostInfo> posts = this.boardApplication.findPosts();
 
+        // dto 만들기
+        List<BoardDto.ReadPosts.Data> data = posts.stream().map(post -> new BoardDto.ReadPosts.Data(post)).collect(Collectors.toList());
+
         // 응답 만들기
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("found posts");
-        successResponse.setData(posts);
+        successResponse.setData(data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
     // TODO: bean validation 처리
     @GetMapping(value = "/posts/{postId}")
-    public ApiResponse getPost(@PathVariable("postId") Long postId) {
+    public ResponseEntity<SuccessResponse> getPost(@PathVariable("postId") Long postId) {
         System.out.println(postId.getClass().getName()); // Long으로 자동 형변환 되는듯 합니다. : )
 
         // query 만들기
@@ -103,21 +105,14 @@ public class BoardController {
         BoardInfo.PostInfo post = this.boardApplication.findPost(query);
         System.out.println(post);
 
-        // dto 만들기: TODO: mapper
-        BoardDto.ReadPostData data = new BoardDto.ReadPostData(post); // dto 만들기
+        // dto 만들기
+        BoardDto.ReadPost.Data data = new BoardDto.ReadPost.Data(post);
 
-        System.out.println(data);
-        /*
-         class -> static class -> static class nest는 serializier가 안 됩니다.
-         따라서 class -> static class까지 class를 정의하는게 좋습니다.
-         */
-
-        //  응답 만들기
-        return ApiResponse.success(data);
-//        SuccessResponse successResponse = new SuccessResponse();
-//        successResponse.setMessage("found post");
-////        successResponse.setData(data);
-//        return successResponse;
+        // 응답 만들기
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("found post");
+        successResponse.setData(data);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 //
 //    /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
