@@ -1,16 +1,12 @@
 package minho.springserver.api.interfaces.board;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import minho.springserver.api.application.board.BoardApplication;
 import minho.springserver.api.domain.board.BoardCommand;
-import minho.springserver.dao.PostsRepository;
-import minho.springserver.dto.Post;
+import minho.springserver.api.domain.board.BoardInfo;
 import minho.springserver.dto.SuccessResponse;
-import minho.springserver.entity.Posts;
-import minho.springserver.exception.BoardException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
@@ -54,7 +50,7 @@ public class BoardController {
         System.out.println(violations.size());
         for (ConstraintViolation<BoardDto.CreatePost.RequestBody> violation : violations) {
             System.out.println("violation=" + violation);
-            System.out.println("violation.message=" + violation.getMessage());]
+            System.out.println("violation.message=" + violation.getMessage());
             throw new Error(violation.getMessage()); // TODO: BadRequestException 만들기
         }
 
@@ -81,14 +77,14 @@ public class BoardController {
         response.getWriter().write(successResponseAsJson);
     }
 
-//    @GetMapping(value = "/posts")
-//    public ResponseEntity<SuccessResponse> getPosts() {
-//        List<Posts> posts = this.postsRepository.findAll();
-//        SuccessResponse successResponse = new SuccessResponse();
-//        successResponse.setMessage("found posts");
-//        successResponse.setData(posts);
-//        return new ResponseEntity<>(successResponse, HttpStatus.OK);
-//    }
+    @GetMapping(value = "/posts")
+    public ResponseEntity<SuccessResponse> getPosts() {
+        List<BoardInfo.PostInfo> posts = this.boardApplication.findPosts();
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("found posts");
+        successResponse.setData(posts);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
 //
 //    // TODO: bean validation 처리
 //    @GetMapping(value = "/posts/{postId}")
