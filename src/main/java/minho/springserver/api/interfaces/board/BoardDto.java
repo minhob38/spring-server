@@ -42,26 +42,21 @@ public class BoardDto {
         }
     }
 
-    static class ReadPost {
-//        @Getter
-//        @RequiredArgsConstructor
-//        static class PathParameter {
-//            private final Long postId;
-//        }
+    // GET-api/posts/:postId
 
-        @ToString
-        static class Data {
-            Long postId;
-            String author;
-            String title;
-            String content;
+    @ToString
+    @Getter // <- getter가 없으면 serialization이 되지 않습니다.
+    static class ReadPostData {
+        private final Long postId;
+        private final String author;
+        private final String title;
+        private final String content;
 
-            Data(BoardInfo.PostInfo postInfo) {
-                this.postId = postInfo.getPostId();
-                this.author = postInfo.getAuthor();
-                this.title = postInfo.getTitle();
-                this.content = postInfo.getContent();
-            }
+        ReadPostData(BoardInfo.PostInfo postInfo) {
+            this.postId = postInfo.getPostId();
+            this.author = postInfo.getAuthor();
+            this.title = postInfo.getTitle();
+            this.content = postInfo.getContent();
         }
     }
 }

@@ -93,7 +93,7 @@ public class BoardController {
 
     // TODO: bean validation 처리
     @GetMapping(value = "/posts/{postId}")
-    public ApiResponse<BoardDto.ReadPost.Data> getPost(@PathVariable("postId") Long postId) {
+    public ApiResponse getPost(@PathVariable("postId") Long postId) {
         System.out.println(postId.getClass().getName()); // Long으로 자동 형변환 되는듯 합니다. : )
 
         // query 만들기
@@ -104,12 +104,15 @@ public class BoardController {
         System.out.println(post);
 
         // dto 만들기: TODO: mapper
-        BoardDto.ReadPost.Data data = new BoardDto.ReadPost.Data(post); // dto 만들기
-        System.out.println("!!!");
+        BoardDto.ReadPostData data = new BoardDto.ReadPostData(post); // dto 만들기
+
         System.out.println(data);
+        /*
+         class -> static class -> static class nest는 serializier가 안 됩니다.
+         따라서 class -> static class까지 class를 정의하는게 좋습니다.
+         */
 
         //  응답 만들기
-        System.out.println(ApiResponse.success(data));
         return ApiResponse.success(data);
 //        SuccessResponse successResponse = new SuccessResponse();
 //        successResponse.setMessage("found post");
