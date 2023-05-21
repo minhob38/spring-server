@@ -25,4 +25,10 @@ public class BoardService {
         List<BoardInfo.PostInfo> posts = this.boardRead.findPosts();
         return posts;
     }
+
+    public BoardInfo.PostInfo findPost(BoardQuery.FindPostQuery query) {
+        Long postId = query.getPostId();
+        BoardInfo.PostInfo post = this.boardRead.findPost(postId);
+        return post;
+    }
 }

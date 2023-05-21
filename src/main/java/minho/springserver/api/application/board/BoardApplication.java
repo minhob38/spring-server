@@ -3,6 +3,7 @@ package minho.springserver.api.application.board;
 import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.board.BoardCommand;
 import minho.springserver.api.domain.board.BoardInfo;
+import minho.springserver.api.domain.board.BoardQuery;
 import minho.springserver.api.domain.board.BoardService;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +22,10 @@ public class BoardApplication {
     public List<BoardInfo.PostInfo> findPosts() {
         List<BoardInfo.PostInfo> posts = this.boardService.findPosts();
         return posts;
+    }
+
+    public BoardInfo.PostInfo findPost(BoardQuery.FindPostQuery query) {
+        BoardInfo.PostInfo post = this.boardService.findPost(query);
+        return post;
     }
 }

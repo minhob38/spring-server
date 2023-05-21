@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import minho.springserver.api.domain.board.BoardInfo;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -38,6 +39,29 @@ public class BoardDto {
         static class Data {
             @JsonProperty("postId") // jackson에서 nested object -> json으로 바꾸기 위해 필요한 설정입니다.
             private final Long postId;
+        }
+    }
+
+    static class ReadPost {
+//        @Getter
+//        @RequiredArgsConstructor
+//        static class PathParameter {
+//            private final Long postId;
+//        }
+
+        @ToString
+        static class Data {
+            Long postId;
+            String author;
+            String title;
+            String content;
+
+            Data(BoardInfo.PostInfo postInfo) {
+                this.postId = postInfo.getPostId();
+                this.author = postInfo.getAuthor();
+                this.title = postInfo.getTitle();
+                this.content = postInfo.getContent();
+            }
         }
     }
 }

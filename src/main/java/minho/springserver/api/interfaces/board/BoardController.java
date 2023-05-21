@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import minho.springserver.api.application.board.BoardApplication;
 import minho.springserver.api.domain.board.BoardCommand;
 import minho.springserver.api.domain.board.BoardInfo;
+import minho.springserver.api.domain.board.BoardQuery;
 import minho.springserver.dto.SuccessResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,23 +80,39 @@ public class BoardController {
 
     @GetMapping(value = "/posts")
     public ResponseEntity<SuccessResponse> getPosts() {
+        // interface -> application
         List<BoardInfo.PostInfo> posts = this.boardApplication.findPosts();
+
+        // 응답 만들기
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("found posts");
         successResponse.setData(posts);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
-//
-//    // TODO: bean validation 처리
-//    @GetMapping(value = "/posts/{postId}")
-//    public ResponseEntity<SuccessResponse> getPost(@PathVariable("postId") Long postId) {
-//        System.out.println(postId.getClass().getName()); // Long으로 자동 형변환 되는듯 합니다. : )
-//        Posts post = this.postsRepository.findById(postId);
-//        SuccessResponse successResponse = new SuccessResponse();
-//        successResponse.setMessage("found post");
-//        successResponse.setData(post);
-//        return new ResponseEntity<>(successResponse, HttpStatus.OK);
-//    }
+
+    // TODO: bean validation 처리
+    @GetMapping(value = "/posts/{postId}")
+    public SuccessResponse getPost(@PathVariable("postId") Long postId) {
+        System.out.println(postId.getClass().getName()); // Long으로 자동 형변환 되는듯 합니다. : )
+
+        // query 만들기
+        BoardQuery.FindPostQuery query = new BoardQuery.FindPostQuery(postId);
+
+        // interface -> application
+        BoardInfo.PostInfo post = this.boardApplication.findPost(query);
+        System.out.println(post);
+
+        // dto 만들기: TODO: mapper
+        BoardDto.ReadPost.Data data = new BoardDto.ReadPost.Data(post); // dto 만들기
+        System.out.println("!!!");
+        System.out.println(data);
+
+        //  응답 만들기
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("found post");
+//        successResponse.setData(data);
+        return successResponse;
+    }
 //
 //    /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
 //    @PatchMapping(value = "/posts/{postId}")

@@ -4,15 +4,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-public class BoardInfo {
+public class BoardQuery {
 
-    @ToString
     @Getter
+    @ToString
     @RequiredArgsConstructor
-    public static class PostInfo {
+    public static class FindPostQuery {
         private final Long postId;
-        private final String author;
-        private final String title;
-        private final String content;
     }
 }

@@ -26,4 +26,14 @@ public class BoardReadImpl {
             return new BoardInfo.PostInfo(postId, author, title, content);
         }).collect(Collectors.toList());
     }
+
+    public BoardInfo.PostInfo findPost(Long postId) {
+        Posts post = this.postsRepository.findById(postId);
+
+        String author = post.getAuthor();
+        String title = post.getTitle();
+        String content = post.getContent();
+
+        return new BoardInfo.PostInfo(postId, author, title, content);
+    }
 }
