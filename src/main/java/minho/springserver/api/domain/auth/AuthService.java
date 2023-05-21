@@ -1,11 +1,8 @@
 package minho.springserver.api.domain.auth;
 
 import lombok.RequiredArgsConstructor;
-import minho.springserver.entity.Users;
 import minho.springserver.exception.AuthException;
 import org.springframework.stereotype.Service;
-
-
 import java.util.Optional;
 
 @Service

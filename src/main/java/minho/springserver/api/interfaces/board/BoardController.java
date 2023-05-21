@@ -8,6 +8,7 @@ import minho.springserver.api.domain.board.BoardCommand;
 import minho.springserver.api.domain.board.BoardInfo;
 import minho.springserver.api.domain.board.BoardQuery;
 import minho.springserver.dto.SuccessResponse;
+import minho.springserver.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
@@ -92,7 +93,7 @@ public class BoardController {
 
     // TODO: bean validation 처리
     @GetMapping(value = "/posts/{postId}")
-    public SuccessResponse getPost(@PathVariable("postId") Long postId) {
+    public ApiResponse<BoardDto.ReadPost.Data> getPost(@PathVariable("postId") Long postId) {
         System.out.println(postId.getClass().getName()); // Long으로 자동 형변환 되는듯 합니다. : )
 
         // query 만들기
@@ -108,10 +109,12 @@ public class BoardController {
         System.out.println(data);
 
         //  응답 만들기
-        SuccessResponse successResponse = new SuccessResponse();
-        successResponse.setMessage("found post");
-//        successResponse.setData(data);
-        return successResponse;
+        System.out.println(ApiResponse.success(data));
+        return ApiResponse.success(data);
+//        SuccessResponse successResponse = new SuccessResponse();
+//        successResponse.setMessage("found post");
+////        successResponse.setData(data);
+//        return successResponse;
     }
 //
 //    /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */

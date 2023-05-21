@@ -2,8 +2,9 @@ package minho.springserver.api.infrastructure.board;
 
 import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.board.BoardInfo;
+import minho.springserver.api.domain.board.BoardQuery;
+import minho.springserver.api.domain.board.Posts;
 import minho.springserver.dao.PostsRepository;
-import minho.springserver.entity.Posts;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

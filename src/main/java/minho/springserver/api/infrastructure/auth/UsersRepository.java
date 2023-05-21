@@ -1,6 +1,7 @@
 package minho.springserver.api.infrastructure.auth;
 
-import minho.springserver.entity.Users;
+import minho.springserver.api.domain.auth.AuthService;
+import minho.springserver.api.domain.auth.Users;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

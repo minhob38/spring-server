@@ -1,13 +1,12 @@
 package minho.springserver.dao;
 
+import minho.springserver.api.domain.board.Posts;
 import minho.springserver.dto.Post;
-import minho.springserver.entity.Posts;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class PostsRepository {

@@ -1,11 +1,9 @@
-package minho.springserver.entity;
+package minho.springserver.api.domain.board;
 
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
-
 @Data
 @Entity
 @Table(name = "posts", schema = "public")

@@ -2,7 +2,7 @@ package minho.springserver.api.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.auth.AuthRead;
-import minho.springserver.entity.Users;
+import minho.springserver.api.domain.auth.Users;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -14,13 +14,13 @@ public class AuthReadImpl implements AuthRead {
 
     @Override
     public Optional<Users> findUserByEmail(String email) {
-        Optional<Users> user =  this.usersRepository.findByEmail(email);
+        Optional<Users> user = this.usersRepository.findByEmail(email);
         return user;
     }
 
     @Override
     public Optional<Users> findUserById(Long userId) {
-        Optional<Users> user =  this.usersRepository.findById(userId);
+        Optional<Users> user = this.usersRepository.findById(userId);
         return user;
     }
 
