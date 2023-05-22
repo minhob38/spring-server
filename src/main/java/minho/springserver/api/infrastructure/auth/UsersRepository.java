@@ -33,7 +33,6 @@ public class UsersRepository {
                 .getSingleResult(); // <- 조회하지 못하면 NoResultException을 생성합니다.
             /* class toString method는 인스턴스의 해시주소를 hex형태로 반환합니다. */
             System.out.println(Integer.toHexString(user.hashCode()));
-            System.out.println(user);
             return Optional.of(user);
         } catch (NoResultException e)  {
             System.out.println("해당 email의 회원이 없습니다. : (");

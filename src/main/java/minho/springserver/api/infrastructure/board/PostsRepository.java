@@ -1,13 +1,14 @@
 package minho.springserver.api.infrastructure.board;
 
 import minho.springserver.api.domain.board.entity.Posts;
-import minho.springserver.dto.Post;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+// Repository -> find/insert/update/delete로 정의
 @Repository
 public class PostsRepository {
     private final EntityManager em;
@@ -16,7 +17,7 @@ public class PostsRepository {
         this.em = em;
     }
 
-    public Long save(String author, String title, String content) {
+    public Long insert(String author, String title, String content) {
       Posts post = new Posts();
       post.setAuthor(author);
       post.setTitle(title);
@@ -31,19 +32,23 @@ public class PostsRepository {
         return posts;
     }
 
-    public Posts findById(Long id) {
+    public Optional<Posts> findById(Long id) {
         Posts post = this.em.find(Posts.class, id);
-        return post;
+        return Optional.ofNullable(post);
     }
 
-    public void update(Long id, Post update) {
-        String content = update.getContent();
-        Posts post = this.findById(id);
-        post.setContent(content);
+    public Long update(Long postId, String author, String title, String content) {
+        Posts post = this.em.find(Posts.class, postId);
+
+        if (author != null) post.setAuthor(author);
+        if (title != null) post.setTitle(title);
+        if (content != null) post.setContent(content);
+
+        return post.getId();
     }
 
     public void delete(Long id) {
-        Posts post = this.findById(id);
-        this.em.remove(post);
+//        Posts post = this.findById(id);
+//        this.em.remove(post);
     }
 }

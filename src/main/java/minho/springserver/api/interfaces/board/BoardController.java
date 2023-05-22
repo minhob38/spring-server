@@ -7,6 +7,7 @@ import minho.springserver.api.application.board.BoardApplication;
 import minho.springserver.api.domain.board.BoardCommand;
 import minho.springserver.api.domain.board.BoardInfo;
 import minho.springserver.api.domain.board.BoardQuery;
+import minho.springserver.exception.BoardException;
 import minho.springserver.response.SuccessResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Min;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -48,7 +50,7 @@ public class BoardController {
 
         // request body 유효성 check
         Set<ConstraintViolation<BoardDto.CreatePost.RequestBody>> violations = validator.validate(requestBody);
-        System.out.println(violations.size());
+
         for (ConstraintViolation<BoardDto.CreatePost.RequestBody> violation : violations) {
             System.out.println("violation=" + violation);
             System.out.println("violation.message=" + violation.getMessage());
@@ -62,15 +64,15 @@ public class BoardController {
         BoardCommand.CreatePostCommand command = new BoardCommand.CreatePostCommand(author, title, content);
 
         // interface -> application
-        Long insertedId = this.boardApplication.createPost(command);
+        Long createdId = this.boardApplication.createPost(command);
+
+        // dto 만들기
+        BoardDto.CreatePost.Data data = new BoardDto.CreatePost.Data(createdId);
 
         // 응답 만들기
-        BoardDto.CreatePost.Data data = new BoardDto.CreatePost.Data(insertedId);
-        System.out.println(data);
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("created post");
         successResponse.setData(data);
-        System.out.println(successResponse);
         String successResponseAsJson = objectMapper.writeValueAsString(successResponse); // object -> json
 
         // 응답 보내기
@@ -95,15 +97,14 @@ public class BoardController {
 
     // TODO: bean validation 처리
     @GetMapping(value = "/posts/{postId}")
-    public ResponseEntity<SuccessResponse> getPost(@PathVariable("postId") Long postId) {
+    public ResponseEntity<SuccessResponse> getPost(@PathVariable("postId") Long postId) throws BoardException {
         System.out.println(postId.getClass().getName()); // Long으로 자동 형변환 되는듯 합니다. : )
 
         // query 만들기
-        BoardQuery.FindPostQuery query = new BoardQuery.FindPostQuery(postId);
+        BoardQuery.ReadPostQuery query = new BoardQuery.ReadPostQuery(postId);
 
         // interface -> application
         BoardInfo.PostInfo post = this.boardApplication.findPost(query);
-        System.out.println(post);
 
         // dto 만들기
         BoardDto.ReadPost.Data data = new BoardDto.ReadPost.Data(post);
@@ -114,21 +115,32 @@ public class BoardController {
         successResponse.setData(data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
-//
-//    /* https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody */
-//    @PatchMapping(value = "/posts/{postId}")
-//    public ResponseEntity<SuccessResponse> patchPost(
-//            @Validated @RequestBody Post update, // RequestBody 및 ModelAttribute는 유효성검증을 위해 @Validated가 붙어있어야 합니다.
-//            @Min(1) @PathVariable("postId") Long postId
-//    ) throws BoardException { //@Requestbody를 생략하면, @ModelAttribute가 붙습니다.
-//        Posts post = this.postsRepository.findById(postId);
-//        if (post == null) throw new BoardException("post does not exits :(");
-//
-//        this.postsRepository.update(postId, update);
-//        SuccessResponse successResponse = new SuccessResponse();
-//        successResponse.setMessage("edited post");
-//        return new ResponseEntity<>(successResponse, HttpStatus.OK);
-//    }
+
+    // https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestbody
+    @PatchMapping(value = "/posts/{postId}")
+    public ResponseEntity<SuccessResponse> patchPost(
+            @Validated @RequestBody BoardDto.ModifyPost.RequestBody requestBody, // RequestBody 및 ModelAttribute는 유효성검증을 위해 @Validated가 붙어있어야 합니다.
+            @Min(1) @PathVariable("postId") Long postId
+    ) throws BoardException { //@Requestbody를 생략하면, @ModelAttribute가 붙습니다.
+        // command 만들기
+        String author = requestBody.getAuthor();
+        String title = requestBody.getTitle();
+        String content = requestBody.getContent();
+        BoardCommand.ModifyCommand command = new BoardCommand.ModifyCommand(postId, author, title, content);
+
+        System.out.println(command);
+        // interface -> application
+        Long modifiedId = this.boardApplication.modifyPost(command);
+
+        // dto 만들기
+        BoardDto.ModifyPost.Data data = new BoardDto.ModifyPost.Data(modifiedId);
+
+        // 응답 만들기
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("edited post");
+        successResponse.setData(data);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
 //
 //    @DeleteMapping(value = "/posts/{postId}")
 //    public ResponseEntity<SuccessResponse> deletePost(@PathVariable("postId") Long postId) {

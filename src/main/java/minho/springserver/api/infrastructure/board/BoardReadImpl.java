@@ -6,8 +6,10 @@ import minho.springserver.api.domain.board.entity.Posts;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+// ReadImpl -> find로 정의
 @Component
 @RequiredArgsConstructor
 public class BoardReadImpl {
@@ -26,13 +28,15 @@ public class BoardReadImpl {
         }).collect(Collectors.toList());
     }
 
-    public BoardInfo.PostInfo findPost(Long postId) {
-        Posts post = this.postsRepository.findById(postId);
+    public Optional<BoardInfo.PostInfo> findPost(Long postId) {
+        Optional<Posts> post = this.postsRepository.findById(postId);
 
-        String author = post.getAuthor();
-        String title = post.getTitle();
-        String content = post.getContent();
+        if (post.isEmpty()) return Optional.empty();
 
-        return new BoardInfo.PostInfo(postId, author, title, content);
+        String author = post.get().getAuthor();
+        String title = post.get().getTitle();
+        String content = post.get().getContent();
+
+        return Optional.of(new BoardInfo.PostInfo(postId, author, title, content));
     }
 }
