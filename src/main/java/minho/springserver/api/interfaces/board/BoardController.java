@@ -83,7 +83,7 @@ public class BoardController {
     @GetMapping(value = "/posts")
     public ResponseEntity<SuccessResponse> getPosts() {
         // interface -> application
-        List<BoardInfo.PostInfo> posts = this.boardApplication.findPosts();
+        List<BoardInfo.PostInfo> posts = this.boardApplication.readPosts();
 
         // dto 만들기
         List<BoardDto.ReadPosts.Data> data = posts.stream().map(post -> new BoardDto.ReadPosts.Data(post)).collect(Collectors.toList());
@@ -104,7 +104,7 @@ public class BoardController {
         BoardQuery.ReadPostQuery query = new BoardQuery.ReadPostQuery(postId);
 
         // interface -> application
-        BoardInfo.PostInfo post = this.boardApplication.findPost(query);
+        BoardInfo.PostInfo post = this.boardApplication.readPost(query);
 
         // dto 만들기
         BoardDto.ReadPost.Data data = new BoardDto.ReadPost.Data(post);

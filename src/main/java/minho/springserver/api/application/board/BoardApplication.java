@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// Application -> Create/Read/Modify/Remove로 정의
 @Component
 @RequiredArgsConstructor
 public class BoardApplication {
@@ -20,12 +21,12 @@ public class BoardApplication {
         return createdId;
     }
 
-    public List<BoardInfo.PostInfo> findPosts() {
+    public List<BoardInfo.PostInfo> readPosts() {
         List<BoardInfo.PostInfo> posts = this.boardService.readPosts();
         return posts;
     }
 
-    public BoardInfo.PostInfo findPost(BoardQuery.ReadPostQuery query) throws BoardException {
+    public BoardInfo.PostInfo readPost(BoardQuery.ReadPostQuery query) throws BoardException {
         BoardInfo.PostInfo post = this.boardService.readPost(query);
         return post;
     }
