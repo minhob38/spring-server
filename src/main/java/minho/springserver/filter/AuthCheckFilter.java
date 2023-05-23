@@ -1,7 +1,7 @@
 package minho.springserver.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import minho.springserver.dto.ErrorResponse;
+import minho.springserver.response.ErrorResponse;
 import org.springframework.http.*;
 import org.springframework.util.PatternMatchUtils;
 

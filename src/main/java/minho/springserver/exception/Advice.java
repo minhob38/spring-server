@@ -1,6 +1,6 @@
 package minho.springserver.exception;
 
-import minho.springserver.dto.ErrorResponse;
+import minho.springserver.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

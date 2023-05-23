@@ -1,4 +1,4 @@
-package minho.springserver.dto;
+package minho.springserver.response;
 
 public class ErrorResponse {
     private final String status = "error";

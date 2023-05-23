@@ -1,14 +1,12 @@
 package minho.springserver.api.interfaces.auth;
 
-import lombok.Getter;
-import lombok.ToString;
 import minho.springserver.api.application.auth.AuthApplication;
 import minho.springserver.api.domain.auth.AuthCommand;
 import minho.springserver.api.domain.auth.AuthInfo;
 import minho.springserver.api.domain.auth.AuthQuery;
 import minho.springserver.api.domain.auth.SessionUser;
-import minho.springserver.dto.*;
 import minho.springserver.exception.AuthException;
+import minho.springserver.response.ErrorResponse;
 import minho.springserver.response.SuccessResponse;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;

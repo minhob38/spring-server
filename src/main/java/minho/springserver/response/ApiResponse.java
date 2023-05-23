@@ -2,7 +2,6 @@ package minho.springserver.response;
 
 import lombok.*;
 
-
 @ToString
 @Getter
 @Builder
@@ -20,8 +19,6 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> success(T data) {
         return success(data, null);
     }
-
-    // public 떼보기
 
     enum Status {
         SUCCESS, FAILURE
