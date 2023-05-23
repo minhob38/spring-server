@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.auth.AuthCreate;
 import org.springframework.stereotype.Component;
 
+
+// CreateImpl -> insert/update/delete로 정의
 @Component
 @RequiredArgsConstructor
 public class AuthCreateImpl implements AuthCreate {
@@ -15,7 +17,7 @@ public class AuthCreateImpl implements AuthCreate {
     }
 
     @Override
-    public Long saveUser(String email, String password) {
+    public Long insertUser(String email, String password) {
         Long insertedId = this.usersRepository.create(email, password);
         return insertedId;
     }

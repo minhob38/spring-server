@@ -3,6 +3,7 @@ package minho.springserver.api.interfaces.auth;
 import minho.springserver.api.application.auth.AuthApplication;
 import minho.springserver.api.domain.auth.AuthCommand;
 import minho.springserver.api.domain.auth.AuthInfo;
+import minho.springserver.api.domain.auth.AuthQuery;
 import minho.springserver.api.domain.auth.SessionUser;
 import minho.springserver.dto.*;
 import minho.springserver.exception.AuthException;
@@ -50,6 +51,7 @@ import javax.transaction.Transactional;
 - @RestController -> @Controller에 @Component가 있습니다.
 - @RestController는 @ResponseBody를 가지고 있어, view template을 찾지 않습니다.
 */
+
 @Transactional
 @RestController
 public class AuthController {
@@ -88,10 +90,13 @@ public class AuthController {
         // interface -> application
         AuthInfo.SignupInfo signupInfo = this.authApplication.signup(command);
 
+        // dto 생성
+        AuthDto.Signup.Data data = new AuthDto.Signup.Data(signupInfo);
+
         // 응답 생성
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("user signed up");
-        successResponse.setData("token");
+        successResponse.setData(data);
         return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
     }
 
@@ -131,10 +136,10 @@ public class AuthController {
         String newPassword = patchPasswordForm.getNewPassword();
 
         // command 생성
-        AuthCommand.UpdatePasswordCommand command = new AuthCommand.UpdatePasswordCommand(userId, newPassword, currentPassword);
+        AuthCommand.ModifyPasswordCommand command = new AuthCommand.ModifyPasswordCommand(userId, newPassword, currentPassword);
 
         // interface -> application
-        this.authApplication.updatePassword(command);
+        this.authApplication.modifyPassword(command);
 
         // 응답 생성
         SuccessResponse successResponse = new SuccessResponse();
@@ -146,15 +151,18 @@ public class AuthController {
         Long userId = user.getUserId();
 
         // command 생성
-        AuthCommand.ReadMeCommand command = new AuthCommand.ReadMeCommand(userId);
+        AuthQuery.ReadMeQuery query = new AuthQuery.ReadMeQuery(userId);
 
         // interface -> application
-        AuthInfo.UserInfo userInfo = this.authApplication.findMe(command);
+        AuthInfo.UserInfo userInfo = this.authApplication.readMe(query);
+
+        // dto 생성
+        AuthDto.ReadMe.Data data = new AuthDto.ReadMe.Data(userInfo);
 
         // 응답 생성
         SuccessResponse successResponse = new SuccessResponse();
         successResponse.setMessage("my information");
-        successResponse.setData(userInfo);
+        successResponse.setData(data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 

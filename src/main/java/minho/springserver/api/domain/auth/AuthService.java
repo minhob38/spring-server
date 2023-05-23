@@ -6,6 +6,8 @@ import minho.springserver.exception.AuthException;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
+
+// Service -> Create/Read/Modify/Remove로 정의
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -22,7 +24,7 @@ public class AuthService {
         }
 
         String hash = this.authCreate.createHash(password);
-        Long userId = this.authCreate.saveUser(email, hash);
+        Long userId = this.authCreate.insertUser(email, hash);
 
         return new AuthInfo.SignupInfo(userId);
     }
@@ -48,7 +50,7 @@ public class AuthService {
         return new AuthInfo.SigninInfo(userId);
     }
 
-    public void updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
+    public void modifyPassword(AuthCommand.ModifyPasswordCommand command) throws AuthException {
         Long userId = command.getUserId();
         String currentPassword = command.getCurrentPassword();
         String newPassword = command.getNewPassword();
@@ -75,8 +77,8 @@ public class AuthService {
         this.authCreate.updatePassword(userId, newHash);
     }
 
-    public AuthInfo.UserInfo findMe(AuthCommand.ReadMeCommand command) throws AuthException {
-        Long userId = command.getUserId();
+    public AuthInfo.UserInfo readMe(AuthQuery.ReadMeQuery query) throws AuthException {
+        Long userId = query.getUserId();
 
         Optional<Users> user = this.authRead.findUserById(userId);
 

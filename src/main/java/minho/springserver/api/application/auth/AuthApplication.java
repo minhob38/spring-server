@@ -3,10 +3,12 @@ package minho.springserver.api.application.auth;
 import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.auth.AuthCommand;
 import minho.springserver.api.domain.auth.AuthInfo;
+import minho.springserver.api.domain.auth.AuthQuery;
 import minho.springserver.api.domain.auth.AuthService;
 import minho.springserver.exception.AuthException;
 import org.springframework.stereotype.Component;
 
+// Application -> Create/Read/Modify/Remove로 정의
 @Component
 @RequiredArgsConstructor
 public class AuthApplication {
@@ -21,12 +23,12 @@ public class AuthApplication {
         return signinInfo;
     }
 
-    public void updatePassword(AuthCommand.UpdatePasswordCommand command) throws AuthException {
-        this.authService.updatePassword(command);
+    public void modifyPassword(AuthCommand.ModifyPasswordCommand command) throws AuthException {
+        this.authService.modifyPassword(command);
     }
 
-    public AuthInfo.UserInfo findMe(AuthCommand.ReadMeCommand command) throws AuthException {
-        AuthInfo.UserInfo userInfo =  this.authService.findMe(command);
+    public AuthInfo.UserInfo readMe(AuthQuery.ReadMeQuery query) throws AuthException {
+        AuthInfo.UserInfo userInfo =  this.authService.readMe(query);
         return userInfo;
     }
 

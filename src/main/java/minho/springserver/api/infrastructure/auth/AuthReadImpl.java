@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+// ReadImpl -> find로 정의
 @Component
 @RequiredArgsConstructor
 public class AuthReadImpl implements AuthRead {

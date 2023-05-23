@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// Service -> Create/Read/Modify/Remove로 정의
 @Service
 @RequiredArgsConstructor
 public class BoardService {
