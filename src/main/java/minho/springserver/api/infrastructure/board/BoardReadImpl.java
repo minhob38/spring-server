@@ -12,9 +12,10 @@ import java.util.stream.Collectors;
 // ReadImpl -> find로 정의
 @Component
 @RequiredArgsConstructor
-public class BoardReadImpl {
+public class BoardReadImpl implements minho.springserver.api.domain.board.BoardRead {
     public final PostsRepository postsRepository;
 
+    @Override
     public List<BoardInfo.PostInfo> findPosts() {
         List<Posts> posts = this.postsRepository.findAll();
 
@@ -28,6 +29,7 @@ public class BoardReadImpl {
         }).collect(Collectors.toList());
     }
 
+    @Override
     public Optional<BoardInfo.PostInfo> findPost(Long postId) {
         Optional<Posts> post = this.postsRepository.findById(postId);
 
