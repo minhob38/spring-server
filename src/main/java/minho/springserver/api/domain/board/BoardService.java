@@ -5,8 +5,6 @@ import minho.springserver.api.infrastructure.board.BoardCreateImpl;
 import minho.springserver.api.infrastructure.board.BoardReadImpl;
 import minho.springserver.exception.BoardException;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +52,18 @@ public class BoardService {
 
         Long modifiedId = this.boardCreate.updatePost(postId, author, title, content);
         return modifiedId;
+    }
+
+    public Long removePost(BoardCommand.RemoveCommand command) throws BoardException {
+        Long postId = command.getPostId();
+
+        Optional<BoardInfo.PostInfo> post = this.boardRead.findPost(postId);
+
+        if (post.isEmpty()) {
+            throw new BoardException("post does not exits :(");
+        }
+
+        Long removedId = this.boardCreate.deletePost(postId);
+        return removedId;
     }
 }

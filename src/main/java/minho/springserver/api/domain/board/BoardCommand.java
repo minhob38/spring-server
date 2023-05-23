@@ -24,4 +24,11 @@ public class BoardCommand {
         private final String title;
         private final String content;
     }
+
+    @ToString
+    @Getter
+    @RequiredArgsConstructor
+    public static class RemoveCommand {
+        private final Long postId;
+    }
 }

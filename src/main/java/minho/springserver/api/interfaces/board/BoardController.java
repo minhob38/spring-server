@@ -128,7 +128,6 @@ public class BoardController {
         String content = requestBody.getContent();
         BoardCommand.ModifyCommand command = new BoardCommand.ModifyCommand(postId, author, title, content);
 
-        System.out.println(command);
         // interface -> application
         Long modifiedId = this.boardApplication.modifyPost(command);
 
@@ -141,13 +140,23 @@ public class BoardController {
         successResponse.setData(data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
-//
-//    @DeleteMapping(value = "/posts/{postId}")
-//    public ResponseEntity<SuccessResponse> deletePost(@PathVariable("postId") Long postId) {
-//        this.postsRepository.delete(postId);
-//        SuccessResponse successResponse = new SuccessResponse();
-//        successResponse.setMessage("deleted post");
-//        return new ResponseEntity<>(successResponse, HttpStatus.OK);
-//    }
+
+    @DeleteMapping(value = "/posts/{postId}")
+    public ResponseEntity<SuccessResponse> deletePost(@PathVariable("postId") Long postId) throws BoardException {
+        // command 만들기
+        BoardCommand.RemoveCommand command = new BoardCommand.RemoveCommand(postId);
+
+        // interface -> application
+        Long removedId = this.boardApplication.removePost(command);
+
+        // dto 만들기
+        BoardDto.RemovePost.Data data = new BoardDto.RemovePost.Data(removedId);
+
+        // 응답 만들기
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setMessage("deleted post");
+        successResponse.setData(data);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    }
 }
 

@@ -35,4 +35,9 @@ public class BoardApplication {
         Long modifiedId = this.boardService.modifyPost(command);
         return modifiedId;
     }
+
+    public Long removePost(BoardCommand.RemoveCommand command) throws BoardException {
+        Long removedId = this.boardService.removePost(command);
+        return removedId;
+    }
 }

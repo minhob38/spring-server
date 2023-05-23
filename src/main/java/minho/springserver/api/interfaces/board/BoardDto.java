@@ -111,4 +111,30 @@ public class BoardDto {
             }
         }
     }
+
+    // DELETE-api/posts/:postId
+    static class RemovePost {
+        @Getter
+        @RequiredArgsConstructor
+        static class RequestBody {
+            // @NotBlank(message = "author is required - '':(X) / ' ':(X) / null:(X)")
+            private final String author;
+
+            // @NotEmpty(message = "title is required - '':(X) / ' ':(O) / null:(X)")
+            private final String title;
+
+            @NotNull(message = "content is required - '':(O) / ' ':(O) / null:(X)")
+            String content;
+        }
+
+
+        @Getter
+        static class Data {
+            private final Long postId;
+
+            Data(Long postId) {
+                this.postId = postId;
+            }
+        }
+    }
 }

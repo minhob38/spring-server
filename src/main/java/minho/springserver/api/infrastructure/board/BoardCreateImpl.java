@@ -18,4 +18,9 @@ public class BoardCreateImpl {
         Long updatedId = this.postsRepository.update(postId, author, title, content);
         return updatedId;
     }
+
+    public Long deletePost(Long postId) {
+        Long deletedId = this.postsRepository.delete(postId);
+        return deletedId;
+    }
 }

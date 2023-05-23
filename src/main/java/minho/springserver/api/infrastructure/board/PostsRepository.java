@@ -47,8 +47,9 @@ public class PostsRepository {
         return post.getId();
     }
 
-    public void delete(Long id) {
-//        Posts post = this.findById(id);
-//        this.em.remove(post);
+    public Long delete(Long id) {
+        Posts post = this.em.find(Posts.class, id);
+        this.em.remove(post);
+        return post.getId();
     }
 }
