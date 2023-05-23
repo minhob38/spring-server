@@ -1,5 +1,7 @@
 package minho.springserver.api.interfaces.auth;
 
+import lombok.Getter;
+import lombok.ToString;
 import minho.springserver.api.application.auth.AuthApplication;
 import minho.springserver.api.domain.auth.AuthCommand;
 import minho.springserver.api.domain.auth.AuthInfo;
@@ -121,8 +123,8 @@ public class AuthController {
 
     /* BidingResult를 인자로 넘겨주면, controller가 실행됩니다. (@Validated가 있을때 BindingResult를 인자로 넘겨주지 않으면 controller에서 error를 처리할수 없습니다.) */
     @PatchMapping(value = "/api/auth/password")
-    public SuccessResponse patchPassword(HttpServletRequest request, @Validated @ModelAttribute PatchPasswordForm patchPasswordForm, BindingResult bindingResult) throws AuthException {
-
+    public SuccessResponse patchPassword(HttpServletRequest request, @Validated @ModelAttribute AuthDto.ModifyPassword.Form form, BindingResult bindingResult) throws AuthException {
+        System.out.println(form);
         if (bindingResult.hasErrors()) {
             System.out.println((bindingResult.getAllErrors()));
         }
@@ -132,8 +134,8 @@ public class AuthController {
         SessionUser sessionUser = (SessionUser) session.getAttribute("auth-key");
         Long userId = sessionUser.getUserId();
 
-        String currentPassword =  patchPasswordForm.getCurrentPassword();
-        String newPassword = patchPasswordForm.getNewPassword();
+        String currentPassword =  form.getCurrentPassword();
+        String newPassword = form.getNewPassword();
 
         // command 생성
         AuthCommand.ModifyPasswordCommand command = new AuthCommand.ModifyPasswordCommand(userId, newPassword, currentPassword);
