@@ -65,4 +65,12 @@ public class Advice {
         errorResponse.setMessage(e.getMessage());
         return errorResponse;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException.class)
+    public ErrorResponse badRequestExceptionHandler(BadRequestException e) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(e.getMessage());
+        return errorResponse;
+    }
 }
