@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 public class SellerService {
     private final SellerCreate sellerCreate;
 
-    Long createSeller(SellerCommand.CreateSellerCommand command) {
+    public Long createSeller(SellerCommand.CreateSellerCommand command) {
         // seller entity 초기화 (command -> entity)
-        Sellers initialSeller = command.toInitialEntity();
+        Sellers initialSeller = command.toEntity();
 
         // seller 저장
         Long insertedId = this.sellerCreate.insertSeller(initialSeller);

@@ -6,12 +6,12 @@ import minho.springserver.api.domain.seller.entity.Sellers;
 
 public class SellerInfo {
     @Getter
-    @Builder // final 붙여야하나?
+    @Builder
     public static class Seller {
-        private Long id;
-        private String sellerName;
-        private String businessNumber;
-        private String email;
-        private Sellers.Status status;
+        private final Long id;
+        private final String sellerName;
+        private final String businessNumber;
+        private final String email;
+        private final Sellers.Status status;
     }
 }

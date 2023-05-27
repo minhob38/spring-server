@@ -2,7 +2,6 @@ package minho.springserver.api.domain.seller.input;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.seller.entity.Sellers;
 
 public class SellerCommand {
@@ -13,14 +12,14 @@ public class SellerCommand {
         private final String businessNumber;
         private final String email;
 
-        public Sellers toInitialEntity() {
-            Sellers initialSeller = Sellers.builder()
-                    .sellerName(sellerName)
-                    .businessNumber(businessNumber)
-                    .email(email)
+        public Sellers toEntity() {
+            Sellers seller = Sellers.builder()
+                    .sellerName(this.sellerName)
+                    .businessNumber(this.businessNumber)
+                    .email(this.email)
                     .build();
 
-            return initialSeller;
+            return seller;
         }
     }
 }
