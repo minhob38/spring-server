@@ -7,8 +7,12 @@ import lombok.Getter;
 public class SellerQuery {
 
     @Getter
-    @Builder
+//    @Builder
     public static class ReadSellerQuery {
         private final Long sellerId;
+
+        public ReadSellerQuery(Long sellerId) {
+            this.sellerId = sellerId;
+        }
     }
 }

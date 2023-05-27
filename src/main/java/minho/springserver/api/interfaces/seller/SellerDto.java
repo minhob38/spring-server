@@ -10,10 +10,10 @@ import java.time.ZonedDateTime;
 // DTO -> Create/Read/Modify/Remove로 정의
 public class SellerDto {
     // POST-api/sellers
-    static class CreateSeller {
+    public static class CreateSeller {
         @Getter
         @RequiredArgsConstructor
-        static class RequestBody {
+        public static class RequestBody {
             @NotBlank(message = "seller name is required - '':(X) / ' ':(X) / null:(X)")
             private final String sellerName;
 

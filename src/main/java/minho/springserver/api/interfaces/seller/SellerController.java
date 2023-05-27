@@ -23,12 +23,7 @@ public class SellerController {
     @PostMapping
     public ApiResponse<SellerDto.CreateSeller.Data> postSeller(@Validated @RequestBody SellerDto.CreateSeller.RequestBody requestBody) {
         // command 만들기
-        SellerCommand.CreateSellerCommand command = SellerCommand.CreateSellerCommand
-                .builder()
-                .sellerName(requestBody.getSellerName())
-                .businessNumber(requestBody.getBusinessNumber())
-                .email(requestBody.getEmail())
-                .build();
+        SellerCommand.CreateSellerCommand command = new SellerCommand.CreateSellerCommand(requestBody);
 
         // interface -> application
         Long createdId = this.sellerApplication.createSeller(command);
@@ -43,10 +38,7 @@ public class SellerController {
     @GetMapping(value = "/{sellerId}")
     public ApiResponse<SellerDto.ReadSeller.Data> getSeller(@PathVariable("sellerId") Long sellerId) throws BadRequestException {
         // query 만들기
-        SellerQuery.ReadSellerQuery query = SellerQuery.ReadSellerQuery
-                .builder()
-                .sellerId(sellerId)
-                .build();
+        SellerQuery.ReadSellerQuery query = new SellerQuery.ReadSellerQuery(sellerId);
 
         // interface -> application
         SellerInfo.Seller seller = this.sellerApplication.readSeller(query);
