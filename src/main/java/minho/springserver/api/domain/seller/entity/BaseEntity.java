@@ -8,6 +8,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
+
+
+@Getter
 @MappedSuperclass
 //@EntityListeners(AuditingEntityListener.class)?
 public abstract class BaseEntity {
