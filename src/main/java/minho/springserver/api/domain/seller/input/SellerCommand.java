@@ -2,8 +2,10 @@ package minho.springserver.api.domain.seller.input;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.seller.entity.Sellers;
 
+// Command Create/Modify/Remove로 정의
 public class SellerCommand {
     @Getter
     @Builder
@@ -11,15 +13,11 @@ public class SellerCommand {
         private final String sellerName;
         private final String businessNumber;
         private final String email;
+    }
 
-        public Sellers toEntity() {
-            Sellers seller = Sellers.builder()
-                    .sellerName(this.sellerName)
-                    .businessNumber(this.businessNumber)
-                    .email(this.email)
-                    .build();
-
-            return seller;
-        }
+    @Getter
+    @RequiredArgsConstructor
+    public static class ModifySellerDisabledCommand {
+        private final Long sellerId;
     }
 }

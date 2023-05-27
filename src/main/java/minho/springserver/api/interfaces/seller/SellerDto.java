@@ -54,4 +54,15 @@ public class SellerDto {
             }
         }
     }
+
+    static class ModifySellerDisabled {
+        @Getter
+        static class Data {
+            private final Long sellerId;
+
+            Data(Long sellerId) {
+                this.sellerId = sellerId;
+            }
+        }
+    }
 }

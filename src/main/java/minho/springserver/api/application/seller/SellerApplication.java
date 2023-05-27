@@ -24,4 +24,9 @@ public class SellerApplication {
         SellerInfo.Seller seller = this.sellerService.readSeller(sellerId);
         return seller;
     }
+
+    public void modifySellerDisabled(SellerCommand.ModifySellerDisabledCommand command) throws BadRequestException {
+        Long sellerId = command.getSellerId();
+        this.sellerService.modifySellerDisabled(sellerId);
+    }
 }

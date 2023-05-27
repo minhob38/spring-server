@@ -2,18 +2,11 @@ package minho.springserver.api.interfaces.seller;
 
 import lombok.RequiredArgsConstructor;
 import minho.springserver.api.application.seller.SellerApplication;
-import minho.springserver.api.domain.board.BoardInfo;
-import minho.springserver.api.domain.board.BoardQuery;
 import minho.springserver.api.domain.seller.SellerInfo;
 import minho.springserver.api.domain.seller.input.SellerCommand;
 import minho.springserver.api.domain.seller.input.SellerQuery;
-import minho.springserver.api.interfaces.board.BoardDto;
 import minho.springserver.exception.BadRequestException;
-import minho.springserver.exception.BoardException;
 import minho.springserver.response.ApiResponse;
-import minho.springserver.response.SuccessResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
@@ -65,4 +58,18 @@ public class SellerController {
         return ApiResponse.success(data);
     }
 
+    @PatchMapping(value = "/{sellerId}")
+    public ApiResponse<SellerDto.ModifySellerDisabled.Data> patchSellerDisabled(@PathVariable("sellerId") Long sellerId) throws BadRequestException {
+        // command 만들기
+        SellerCommand.ModifySellerDisabledCommand command = new SellerCommand.ModifySellerDisabledCommand(sellerId);
+
+        // interface -> application
+         this.sellerApplication.modifySellerDisabled(command);
+
+        // dto 만들기
+        SellerDto.ModifySellerDisabled.Data data = new SellerDto.ModifySellerDisabled.Data(sellerId);
+
+        // 응답 만들기
+        return ApiResponse.success(data, "seller disabled");
+    }
 }

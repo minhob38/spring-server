@@ -17,7 +17,7 @@ public class SellerService {
 
     public Long createSeller(SellerCommand.CreateSellerCommand command) {
         // seller entity 초기화 (command -> entity)
-        Sellers initialSeller = command.toEntity();
+        Sellers initialSeller = Sellers.init(command);
 
         // seller 저장
         Long insertedId = this.sellerCreate.insertSeller(initialSeller);
@@ -32,13 +32,13 @@ public class SellerService {
 
         return new SellerInfo.Seller(seller.get());
     }
+
+    public void modifySellerDisabled(Long sellerId) throws BadRequestException {
+        Optional<Sellers> seller = this.sellerRead.findSeller(sellerId);
+
+        if (seller.isEmpty()) throw new BadRequestException("seller does not exits");
+
+        this.sellerCreate.disabledSeller(sellerId);
+    }
 }
-//
-//    Long enableSeller(Long sellerId) {
-//
-//    }
-//
-//    Long disableSeller(Long sellerId) {
-//
-//    }
 
