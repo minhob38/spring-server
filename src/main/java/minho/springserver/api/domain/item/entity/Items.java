@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,8 +22,9 @@ public class Items extends BaseEntity {
     private String itemName;
     private Long itemPrice;
 
+    // mappedBy는 foreign key member 이름 (@ManyToOne이 붙은 member 이름)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.PERSIST)
-    private List<ItemOptionGroups> itemOptionGroupList = Lists.newArrayList();
+    private List<ItemOptionGroups> itemOptionGroups = new ArrayList<ItemOptionGroups>();
     @Enumerated(EnumType.STRING)
     private Status status;
 

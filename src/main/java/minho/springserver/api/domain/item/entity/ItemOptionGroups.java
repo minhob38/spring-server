@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,13 +19,13 @@ public class ItemOptionGroups extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id") // 실제 foreign key column 이름
     private Items item;
     private Integer ordering;
     private String itemOptionGroupName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "itemOptionGroup", cascade = CascadeType.PERSIST)
-    private List<ItemOptions> itemOptionList = Lists.newArrayList();
+    private List<ItemOptions> itemOptions = new ArrayList<ItemOptions>();
 
     @Builder
     public ItemOptionGroups(Items item, Integer ordering, String itemOptionGroupName) {
@@ -40,7 +41,7 @@ public class ItemOptionGroups extends BaseEntity {
     }
 
     public ItemOptionGroups addItemOption(ItemOptions itemOption) {
-        this.itemOptionList.add(itemOption);
+        this.itemOptions.add(itemOption);
         return this;
     }
 }
