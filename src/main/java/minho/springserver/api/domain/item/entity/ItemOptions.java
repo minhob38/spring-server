@@ -3,12 +3,13 @@ package minho.springserver.api.domain.item.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import minho.springserver.api.domain.item.input.ItemCommand;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
-import java.util.List;
 
+@ToString
 @Getter
 @Entity
 @NoArgsConstructor
@@ -41,5 +42,16 @@ public class ItemOptions extends BaseEntity {
         this.ordering = ordering;
         this.itemOptionName = itemOptionName;
         this.itemOptionPrice = itemOptionPrice;
+    }
+
+    public static ItemOptions init(ItemOptionGroups itemOptionGroup, ItemCommand.CreateItemCommand.ItemOption command) {
+        ItemOptions itemOption = ItemOptions.builder()
+                .itemOptionGroup(itemOptionGroup)
+                .ordering(command.getOrdering())
+                .itemOptionName(command.getItemOptionName())
+                .itemOptionPrice(command.getItemOptionPrice())
+                .build();
+
+        return itemOption;
     }
 }

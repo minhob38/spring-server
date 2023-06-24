@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class ItemCommand {
     @Getter
-//    @Builder
     public static class CreateItemCommand {
         private final Long sellerId;
         private final String itemName;
@@ -47,7 +46,8 @@ public class ItemCommand {
             }
         }
 
-        static class ItemOption {
+        @Getter
+        public static class ItemOption {
             private final Integer ordering;
             private final String itemOptionName;
             private final Long itemOptionPrice;

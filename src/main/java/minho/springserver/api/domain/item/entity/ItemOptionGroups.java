@@ -3,6 +3,7 @@ package minho.springserver.api.domain.item.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import minho.springserver.api.domain.item.input.ItemCommand;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @Getter
 @Entity
 @NoArgsConstructor

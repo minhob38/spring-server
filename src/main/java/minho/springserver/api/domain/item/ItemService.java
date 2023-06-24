@@ -2,11 +2,13 @@ package minho.springserver.api.domain.item;
 
 import lombok.RequiredArgsConstructor;
 import minho.springserver.api.domain.item.entity.ItemOptionGroups;
+import minho.springserver.api.domain.item.entity.ItemOptions;
 import minho.springserver.api.domain.item.entity.Items;
 import minho.springserver.api.domain.item.input.ItemCommand;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,22 +21,28 @@ public class ItemService {
 
     @Transactional
     public Long createItem(ItemCommand.CreateItemCommand command) {
-        // item entity 초기화 (command -> entity)
+        // item entity 초기화 (command -> entity) 및  // item 저장
         Items initItem = Items.init(command);
+        Long insertedItemId = this.itemCreate.insertItem(initItem);
 
-        // item 저장
-        Long insertedId = this.itemCreate.insertItem(initItem);
-
-        // item option group 저장
+        // item option group entity 및 item option entity 초기화 (command -> entity)
+        List<ItemOptions> initItemOptions = new ArrayList<>();
         List<ItemOptionGroups> initItemOptionGroups = command.getItemOptionGroups()
                 .stream()
-                .map(itemOptionGroup -> ItemOptionGroups.init(initItem, itemOptionGroup))
+                .map(itemOptionGroup -> {
+                    ItemOptionGroups initItemOptionGroup = ItemOptionGroups.init(initItem, itemOptionGroup);
+                    itemOptionGroup.getItemOptions().forEach(itemOption -> {
+                        ItemOptions initItemOption = ItemOptions.init(initItemOptionGroup, itemOption);
+                        initItemOptions.add(initItemOption);
+                    });
+                    return initItemOptionGroup;
+                })
                 .collect(Collectors.toList());
 
-        this.itemCreate.insertItemOptionGroups(initItemOptionGroups);
+        // item option group 및 item option 저장
+        List<Long> insertedItemOptionGroupIds = this.itemCreate.insertItemOptionGroups(initItemOptionGroups);
+        List<Long> insertedItemOptionIds =  this.itemCreate.insertItemOptions(initItemOptions);
 
-        // item option 저장
-
-        return insertedId;
+        return insertedItemId;
     }
 }
