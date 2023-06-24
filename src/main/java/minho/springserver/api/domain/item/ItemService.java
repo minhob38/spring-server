@@ -1,6 +1,7 @@
 package minho.springserver.api.domain.item;
 
 import lombok.RequiredArgsConstructor;
+import minho.springserver.api.domain.item.input.ItemCommand;
 import minho.springserver.api.domain.seller.SellerCreate;
 import minho.springserver.api.domain.seller.SellerRead;
 import minho.springserver.api.domain.seller.entity.Sellers;
@@ -13,7 +14,7 @@ public class ItemService {
     private final ItemCreate itemCreate;
     private final ItemRead itemRead;
 
-    public Long createItem(SellerCommand.CreateSellerCommand command) {
+    public Long createItem(ItemCommand.CreateItemCommand command) {
         // seller entity 초기화 (command -> entity)
         Sellers initialSeller = Sellers.init(command);
 
