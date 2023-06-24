@@ -24,19 +24,18 @@ public class ItemDto {
 
         @Getter
         @RequiredArgsConstructor
-        static class ItemOptionGroup {
+        public static class ItemOptionGroup {
             private final Integer ordering;
             private final String itemOptionGroupName;
             private final List<ItemOption> itemOptions;
-
         }
 
         @Getter
         @RequiredArgsConstructor
-        static class ItemOption {
-            private Integer ordering;
-            private String itemOptionName;
-            private Long itemOptionPrice;
+        public static class ItemOption {
+            private final Integer ordering;
+            private final String itemOptionName;
+            private final Long itemOptionPrice;
         }
 
         @Getter
