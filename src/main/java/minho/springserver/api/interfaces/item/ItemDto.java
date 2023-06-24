@@ -15,12 +15,13 @@ public class ItemDto {
         public static class RequestBody {
             private final Long sellerId;
 
-            @NotBlank(message = "seller name is required - '':(X) / ' ':(X) / null:(X)")
+            @NotBlank(message = "item name is required - '':(X) / ' ':(X) / null:(X)")
             private final String itemName;
 
             // TODO: 정수 validator 적용
             private final Long itemPrice;
 
+            // TODO: 중첩객체 validation
             private final List<ItemOptionGroup> itemOptionGroups;
         }
 

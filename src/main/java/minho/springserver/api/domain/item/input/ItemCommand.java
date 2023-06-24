@@ -27,7 +27,8 @@ public class ItemCommand {
                     .collect(Collectors.toList());
         }
 
-        static class ItemOptionGroup {
+        @Getter
+        public static class ItemOptionGroup {
             private final Integer ordering;
             private final String itemOptionGroupName;
             private final List<ItemOption> itemOptions;

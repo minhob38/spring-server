@@ -3,6 +3,7 @@ package minho.springserver.api.domain.item.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import minho.springserver.api.domain.item.input.ItemCommand;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -40,8 +41,18 @@ public class ItemOptionGroups extends BaseEntity {
         this.itemOptionGroupName = itemOptionGroupName;
     }
 
-    public ItemOptionGroups addItemOption(ItemOptions itemOption) {
-        this.itemOptions.add(itemOption);
-        return this;
+    public static ItemOptionGroups init(Items item, ItemCommand.CreateItemCommand.ItemOptionGroup command) {
+        ItemOptionGroups itemOptionGroups = ItemOptionGroups.builder()
+                .item(item)
+                .ordering(command.getOrdering())
+                .itemOptionGroupName(command.getItemOptionGroupName())
+                .build();
+
+        return itemOptionGroups;
     }
+
+//    public ItemOptionGroups addItemOption(ItemOptions itemOption) {
+//        this.itemOptions.add(itemOption);
+//        return this;
+//    }
 }
