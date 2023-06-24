@@ -12,11 +12,13 @@ public class ItemCommand {
     @Getter
 //    @Builder
     public static class CreateItemCommand {
+        private final Long sellerId;
         private final String itemName;
         private final Long itemPrice;
         private final List<ItemOptionGroup> itemOptionGroups;
 
         public CreateItemCommand(ItemDto.CreateItem.RequestBody requestBody) {
+            this.sellerId = requestBody.getSellerId();
             this.itemName = requestBody.getItemName();
             this.itemPrice = requestBody.getItemPrice();
             this.itemOptionGroups = requestBody.getItemOptionGroups()

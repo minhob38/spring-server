@@ -1,6 +1,7 @@
 package minho.springserver.api.interfaces.item;
 
 import lombok.RequiredArgsConstructor;
+import minho.springserver.api.application.item.ItemApplication;
 import minho.springserver.api.domain.item.input.ItemCommand;
 import minho.springserver.response.ApiResponse;
 import org.springframework.validation.annotation.Validated;
@@ -9,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
-
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/items")
 @RestController
 public class ItemController {
+
+    private final ItemApplication itemApplication;
 
     @PostMapping
     public ApiResponse<ItemDto.CreateItem.Data> postItem(@Validated @RequestBody ItemDto.CreateItem.RequestBody requestBody) {

@@ -1,28 +1,31 @@
 package minho.springserver.api.domain.item;
 
 import lombok.RequiredArgsConstructor;
+import minho.springserver.api.domain.item.entity.Items;
 import minho.springserver.api.domain.item.input.ItemCommand;
-import minho.springserver.api.domain.seller.SellerCreate;
-import minho.springserver.api.domain.seller.SellerRead;
-import minho.springserver.api.domain.seller.entity.Sellers;
-import minho.springserver.api.domain.seller.input.SellerCommand;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+// Service -> Create/Read/Modify/Remove로 정의
 @Service
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemCreate itemCreate;
-    private final ItemRead itemRead;
+//    private final ItemRead itemRead;
 
+    @Transactional
     public Long createItem(ItemCommand.CreateItemCommand command) {
-        // seller entity 초기화 (command -> entity)
-        Sellers initialSeller = Sellers.init(command);
+        // item entity 초기화 (command -> entity)
+        Items initItem = Items.init(command);
+        System.out.println(initItem);
+        // item 저장
+        Long insertedId = this.itemCreate.insertItem(initItem);
 
-        // seller 저장
-        Long insertedId = this.sellerCreate.insertSeller(initialSeller);
+        // item option group 저장
+
+        // item option 저장
 
         return insertedId;
     }
-
-
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ItemApplication {
     private final ItemService itemService;
 
-    public Long createSeller(ItemCommand.CreateItemCommand command) {
+    public Long createItem(ItemCommand.CreateItemCommand command) {
         Long createdId = this.itemService.createItem(command);
         return createdId;
     }

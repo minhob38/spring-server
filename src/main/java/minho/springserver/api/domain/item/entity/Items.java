@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import minho.springserver.api.domain.item.input.ItemCommand;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -22,11 +23,12 @@ public class Items extends BaseEntity {
     private String itemName;
     private Long itemPrice;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     // mappedBy는 foreign key member 이름 (@ManyToOne이 붙은 member 이름)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.PERSIST)
     private List<ItemOptionGroups> itemOptionGroups = new ArrayList<ItemOptionGroups>();
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @RequiredArgsConstructor
     public enum Status {
@@ -61,13 +63,13 @@ public class Items extends BaseEntity {
         this.status = Status.END_OF_SALE;
     }
 
-//    public static Items init(ItemCommand.CreateItemCommand command) {
-//        Items item = Items.builder()
-//                .sellerId(command.getSellerId())
-//                .itemName(command.getItemName())
-//                .itemPrice(command.getItemPrice())
-//                .build();
-//
-//        return item;
-//    }
+    public static Items init(ItemCommand.CreateItemCommand command) {
+        Items item = Items.builder()
+                .sellerId(command.getSellerId())
+                .itemName(command.getItemName())
+                .itemPrice(command.getItemPrice())
+                .build();
+
+        return item;
+    }
 }

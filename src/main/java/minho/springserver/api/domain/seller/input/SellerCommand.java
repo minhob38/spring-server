@@ -1,9 +1,7 @@
 package minho.springserver.api.domain.seller.input;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import minho.springserver.api.domain.seller.entity.Sellers;
 import minho.springserver.api.interfaces.seller.SellerDto;
 
 // Command Create/Modify/Remove로 정의

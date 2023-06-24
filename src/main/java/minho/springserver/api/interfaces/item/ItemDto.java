@@ -13,6 +13,8 @@ public class ItemDto {
         @Getter
         @RequiredArgsConstructor
         public static class RequestBody {
+            private final Long sellerId;
+
             @NotBlank(message = "seller name is required - '':(X) / ' ':(X) / null:(X)")
             private final String itemName;
 

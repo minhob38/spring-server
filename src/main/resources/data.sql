@@ -16,4 +16,8 @@ VALUES
 ('zxcvb@gmail.com', 'php server', 'php server ...', '2021-12-26 12:46:31.150', NULL),
 ('zxcvb@gmail.com', 'go server', 'go server ...', '2021-12-27 12:46:31.150', NULL);
 
+INSERT INTO public.sellers
+(created_at, updated_at, business_number, email, seller_name, status)
+VALUES('2023-06-24 16:43:22.514269', '2023-06-24 16:43:22.514477', 'b12345', 'abc@gmail.com', '김판매', 'ENABLED');
+
 
