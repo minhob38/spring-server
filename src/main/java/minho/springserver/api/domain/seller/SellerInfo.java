@@ -1,6 +1,5 @@
 package minho.springserver.api.domain.seller;
 
-import lombok.Builder;
 import lombok.Getter;
 import minho.springserver.api.domain.seller.entity.Sellers;
 

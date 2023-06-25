@@ -2,8 +2,11 @@ package minho.springserver.api.interfaces.item;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import minho.springserver.api.domain.item.ItemInfo;
+import minho.springserver.api.domain.item.entity.Items;
 
 import javax.validation.constraints.NotBlank;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 // DTO -> Create/Read/Modify/Remove로 정의
@@ -47,6 +50,29 @@ public class ItemDto {
 
             Data(Long sellerId) {
                 this.itemId = sellerId;
+            }
+        }
+    }
+
+    static class ReadItem {
+        @Getter
+        static class Data {
+            private final Long itemId;
+            private final Long sellerId;
+            private final String itemName;
+            private final Long itemPrice;
+            private final Items.Status status;
+            private final ZonedDateTime createdAt;
+            private final ZonedDateTime updatedAt;
+
+            Data(ItemInfo.Item item) {
+                this.itemId = item.getItemId();
+                this.sellerId = item.getSellerId();
+                this.itemName = item.getItemName();
+                this.itemPrice = item.getItemPrice();
+                this.status = item.getStatus();
+                this.createdAt = item.getCreatedAt();
+                this.updatedAt = item.getUpdatedAt();
             }
         }
     }

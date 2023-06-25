@@ -5,11 +5,13 @@ import minho.springserver.api.domain.item.entity.ItemOptionGroups;
 import minho.springserver.api.domain.item.entity.ItemOptions;
 import minho.springserver.api.domain.item.entity.Items;
 import minho.springserver.api.domain.item.input.ItemCommand;
+import minho.springserver.exception.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 // Service -> Create/Read/Modify/Remove로 정의
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemCreate itemCreate;
-//    private final ItemRead itemRead;
+    private final ItemRead itemRead;
 
     @Transactional
     public Long createItem(ItemCommand.CreateItemCommand command) {
@@ -44,5 +46,13 @@ public class ItemService {
         List<Long> insertedItemOptionIds =  this.itemCreate.insertItemOptions(initItemOptions);
 
         return insertedItemId;
+    }
+
+    public ItemInfo.Item readItem(Long itemId) throws BadRequestException {
+        Optional<Items> item = this.itemRead.findItem(itemId);
+
+        if (item.isEmpty()) throw new BadRequestException("item does not exits");
+
+        return new ItemInfo.Item(item.get());
     }
 }

@@ -51,11 +51,4 @@ public class ItemCreateImpl implements ItemCreate {
 
         return savedIds;
     }
-//    @Override
-//    public Optional<Long> disabledSeller(Long sellerId) {
-//        Optional<Sellers> seller = this.sellersRepository.findById(sellerId);
-//        if (seller.isEmpty()) return Optional.ofNullable(null);
-//        seller.get().disable();
-//        return Optional.of(sellerId);
-//    }
 }
