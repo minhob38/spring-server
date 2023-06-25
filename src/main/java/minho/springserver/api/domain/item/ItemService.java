@@ -23,6 +23,8 @@ public class ItemService {
 
     @Transactional
     public Long createItem(ItemCommand.CreateItemCommand command) {
+        // aggregate table과 children table은 따로 처리
+
         // item entity 초기화 (command -> entity) 및  item 저장
         Items initItem = Items.init(command);
         Long insertedItemId = this.itemCreate.insertItem(initItem);

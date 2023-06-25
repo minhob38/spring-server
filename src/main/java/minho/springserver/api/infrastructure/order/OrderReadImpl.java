@@ -22,10 +22,9 @@ public class OrderReadImpl implements OrderRead {
         return item;
     }
 
-    // lany loading 뒤, join member(private)에 set을 할수 없기에 별도의 함수를 만들어야 합니다.
-    @Override
-    public List<ItemInfo.ItemOptionGroup> findItemOptionGroups(Items item) {
-        List<ItemInfo.ItemOptionGroup> itemOptionGroups = this.itemRead.findItemOptionGroups(item);
-        return itemOptionGroups;
-    }
+//    @Override
+//    public List<ItemInfo.ItemOptionGroup> findItemOptionGroups(Long itemId, ) {
+//        List<ItemInfo.ItemOptionGroup> itemOptionGroups = this.itemRead.findItemOptionGroups(item);
+//        return itemOptionGroups;
+//    }
 }

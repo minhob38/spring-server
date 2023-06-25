@@ -31,7 +31,7 @@ public class OrderDto {
         @Getter
         @RequiredArgsConstructor
         public static class OrderItemOptionGroup {
-            private final String orderItemOptionGroupId;
+            private final Long orderItemOptionGroupId;
             private final List<OrderItemOption> orderItemOptions;
         }
 

@@ -52,7 +52,7 @@ public class OrderCommand {
 
         @Getter
         public static class OrderItemOptionGroup {
-            private final String orderItemOptionGroupId;
+            private final Long orderItemOptionGroupId;
             private final List<OrderItemOption> orderItemOptions;
 
             OrderItemOptionGroup(OrderDto.CreateOrder.OrderItemOptionGroup orderItemOptionGroup) {
