@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
+//@ToString
 @Getter
 @Entity
 @NoArgsConstructor
@@ -52,9 +52,4 @@ public class ItemOptionGroups extends BaseEntity {
 
         return itemOptionGroups;
     }
-
-//    public ItemOptionGroups addItemOption(ItemOptions itemOption) {
-//        this.itemOptions.add(itemOption);
-//        return this;
-//    }
 }

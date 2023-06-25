@@ -8,6 +8,7 @@ import minho.springserver.api.domain.item.entity.Items;
 import javax.validation.constraints.NotBlank;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // DTO -> Create/Read/Modify/Remove로 정의
 public class ItemDto {
@@ -65,6 +66,8 @@ public class ItemDto {
             private final ZonedDateTime createdAt;
             private final ZonedDateTime updatedAt;
 
+            private final List<ItemOptionGroup> itemOptionGroups;
+
             Data(ItemInfo.Item item) {
                 this.itemId = item.getItemId();
                 this.sellerId = item.getSellerId();
@@ -73,39 +76,50 @@ public class ItemDto {
                 this.status = item.getStatus();
                 this.createdAt = item.getCreatedAt();
                 this.updatedAt = item.getUpdatedAt();
+                this.itemOptionGroups = item.getItemOptionGroups()
+                        .stream()
+                        .map(itemOptionGroup -> {
+                            return new ItemOptionGroup(itemOptionGroup);
+                        }).collect(Collectors.toList());
+            }
+        }
+
+        @Getter
+        public static class ItemOptionGroup {
+            private final Long itemId;
+            private final Long itemOptionGroupId;
+            private final Integer ordering;
+            private final String itemOptionGroupName;
+            private final List<ItemOption> itemOptions;
+
+            public ItemOptionGroup(ItemInfo.ItemOptionGroup itemOptionGroup) {
+                this.itemId = itemOptionGroup.getItemId();
+                this.itemOptionGroupId = itemOptionGroup.getItemOptionGroupId();
+                this.ordering = itemOptionGroup.getOrdering();
+                this.itemOptionGroupName = itemOptionGroup.getItemOptionGroupName();
+                this.itemOptions = itemOptionGroup.getItemOptions()
+                        .stream()
+                        .map(itemOption -> {
+                            return new ItemOption(itemOption);
+                        }).collect(Collectors.toList());
+            }
+        }
+
+        @Getter
+        public static class ItemOption {
+            private final Long itemOptionId;
+            private final Long itemOptionGroupId;
+            private final Integer ordering;
+            private final String itemOptionName;
+            private Long itemOptionPrice;
+
+            public ItemOption(ItemInfo.ItemOption itemOption) {
+                this.itemOptionId = itemOption.getItemOptionId();
+                this.itemOptionGroupId = itemOption.getItemOptionGroupId();
+                this.ordering = itemOption.getOrdering();
+                this.itemOptionName = itemOption.getItemOptionName();
+                this.itemOptionPrice = itemOption.getItemOptionPrice();
             }
         }
     }
-
-//    static class ReadSeller {
-//        @Getter
-//        static class Data {
-//            private final Long sellerId;
-//            private final String sellerName;
-//            private final String businessNumber;
-//            private final String email;
-//            private final ZonedDateTime createdAt;
-//            private final ZonedDateTime updatedAt;
-//
-//            Data(SellerInfo.Seller seller) {
-//                this.sellerId = seller.getSellerId();
-//                this.sellerName = seller.getSellerName();
-//                this.businessNumber = seller.getBusinessNumber();
-//                this.email = seller.getEmail();
-//                this.createdAt = seller.getCreatedAt();
-//                this.updatedAt = seller.getUpdatedAt();
-//            }
-//        }
-//    }
-//
-//    static class ModifySellerDisabled {
-//        @Getter
-//        static class Data {
-//            private final Long sellerId;
-//
-//            Data(Long sellerId) {
-//                this.sellerId = sellerId;
-//            }
-//        }
-//    }
 }

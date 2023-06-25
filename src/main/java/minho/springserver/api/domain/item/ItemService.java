@@ -53,6 +53,8 @@ public class ItemService {
 
         if (item.isEmpty()) throw new BadRequestException("item does not exits");
 
-        return new ItemInfo.Item(item.get());
+        List<ItemInfo.ItemOptionGroup> itemOptionGroups = this.itemRead.findItemOptionGroups(item.get());
+
+        return new ItemInfo.Item(item.get(), itemOptionGroups);
     }
 }

@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
-@ToString
+//@ToString
 @Getter
 @Entity
 @NoArgsConstructor
