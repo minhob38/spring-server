@@ -3,6 +3,7 @@ package minho.springserver.api.domain.order.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import minho.springserver.api.domain.item.ItemInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -41,5 +42,13 @@ public class OrderItemOptionGroups extends BaseEntity {
         this.orderItems = orderItems;
         this.ordering = ordering;
         this.itemOptionGroupName = itemOptionGroupName;
+    }
+
+    public static OrderItemOptionGroups init(OrderItems orderItem, ItemInfo.ItemOptionGroup itemOptionGroup) {
+        return OrderItemOptionGroups.builder()
+                .orderItems(orderItem)
+                .ordering(itemOptionGroup.getOrdering())
+                .itemOptionGroupName(itemOptionGroup.getItemOptionGroupName())
+                .build();
     }
 }

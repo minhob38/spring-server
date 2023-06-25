@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import minho.springserver.api.domain.item.entity.Items;
+import minho.springserver.api.domain.item.input.ItemCommand;
+import minho.springserver.api.domain.order.input.OrderCommand;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -67,7 +70,7 @@ public class Orders extends BaseEntity {
     @NoArgsConstructor
     static class DeliveryFragment {
        private String receiverName;
-       private String receiverPhone;
+       private String receiverPhoneNumber;
        private String receiverZipcode;
        private String receiverAddress1;
        private String receiverAddress2;
@@ -76,25 +79,44 @@ public class Orders extends BaseEntity {
        @Builder
        public DeliveryFragment(
                String receiverName,
-               String receiverPhone,
+               String receiverPhoneNumber,
                String receiverZipcode,
                String receiverAddress1,
                String receiverAddress2,
                String etcMessage
        ) {
            if (StringUtils.isEmpty(receiverName)) throw new RuntimeException("DeliveryFragment receiverName");
-           if (StringUtils.isEmpty(receiverPhone)) throw new RuntimeException("DeliveryFragment receiverPhone");
+           if (StringUtils.isEmpty(receiverPhoneNumber)) throw new RuntimeException("DeliveryFragment receiverPhone");
            if (StringUtils.isEmpty(receiverZipcode)) throw new RuntimeException("DeliveryFragment receiverZipcode");
            if (StringUtils.isEmpty(receiverAddress1)) throw new RuntimeException("DeliveryFragment receiverAddress1");
            if (StringUtils.isEmpty(receiverAddress2)) throw new RuntimeException("DeliveryFragment receiverAddress2");
            if (StringUtils.isEmpty(etcMessage)) throw new RuntimeException("DeliveryFragment etcMessage");
 
            this.receiverName = receiverName;
-           this.receiverPhone = receiverPhone;
+           this.receiverPhoneNumber = receiverPhoneNumber;
            this.receiverZipcode = receiverZipcode;
            this.receiverAddress1 = receiverAddress1;
            this.receiverAddress2 = receiverAddress2;
            this.etcMessage = etcMessage;
        }
    }
+
+    public static Orders init(OrderCommand.CreateOrderCommand command) {
+        DeliveryFragment deliveryFragment =  DeliveryFragment.builder()
+                .receiverName(command.getReceiverName())
+                .receiverPhoneNumber(command.getReceiverPhoneNumber())
+                .receiverZipcode(command.getReceiverZipcode())
+                .receiverAddress1(command.getReceiverAddress1())
+                .receiverAddress2(command.getReceiverAddress2())
+                .etcMessage(command.getEtcMessage())
+                .build();
+
+        Orders order = Orders.builder()
+                .userId(command.getUserId())
+                .payMethod(command.getPayMethod())
+                .deliveryFragment(deliveryFragment)
+                .build();
+
+        return order;
+    }
 }
